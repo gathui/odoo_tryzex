@@ -31,8 +31,9 @@ jobs:
             USER_NAME : ${{ secrets.USER_NAME  }}
             
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
+          # ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} 
+          ssh -i "gathui_aws.pem" ubuntu@ec2-18-191-183-32.us-east-2.compute.amazonaws.com '
           
             #Now we have got the access of EC2 and we will start the deploy .
             cd /opt/odoo-server/marine &&
