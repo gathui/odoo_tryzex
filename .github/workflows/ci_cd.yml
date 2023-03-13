@@ -1,40 +1,47 @@
-name: CI/CD counter app
+name: ssh-into-aws-ec2
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+#  bucket_name: "<example-bucket-name>"
+  AWS_REGION: "us-east-2"
+  REMOTE_HOST: "ec2-18-191-183-32.us-east-2.compute.amazonaws.com"
+  REMOTE_USER: "ubuntu"
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
-#First we will see the application build or not , then we will deploy in EC2
-  build:
+  test:
     runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
-    
-    # - name: Build the docker_compose
-    #   run: docker-compose up -d --build
-      
-    # - name: Buid the application
-    #   run: docker-compose exec -T counter_app npm run build
 
-  Deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    
     steps:
-      - uses: actions/checkout@v2 
-      - name: Deploy in EC2
-        env:
-            PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-            HOSTNAME : ${{ secrets.HOSTNAME  }}
-            USER_NAME : ${{ secrets.USER_NAME  }}
-            
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: Configure SSH
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
-          # ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} 
-          ssh -i "gathui_aws.pem" ubuntu@ec2-18-191-183-32.us-east-2.compute.amazonaws.com '
-          
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/github-actions-key
+          chmod 600 ~/.ssh/github-actions-key
+          cat >>~/.ssh/config <<END
+          Host ec2
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/github-actions-key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_HOST: ${{ env.REMOTE_HOST }}
+          SSH_USER: ${{ env.REMOTE_USER }}
+          SSH_KEY: ${{ secrets.ODOO_SECRET }} 
+      - name: List home directory
+        run: | 
+          ssh ec2 
             #Now we have got the access of EC2 and we will start the deploy .
             cd /opt/odoo-server/marine &&
             git checkout main &&
@@ -42,4 +49,4 @@ jobs:
             git reset --hard origin/main &&
             git pull origin main &&
             #docker-compose -f docker-compose.prod.yml up -d --build 
-          '
+          
