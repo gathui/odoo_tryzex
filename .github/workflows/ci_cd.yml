@@ -40,13 +40,4 @@ jobs:
           SSH_USER: ${{ env.REMOTE_USER }}
           SSH_KEY: ${{ secrets.ODOO_SECRET }} 
       - name: List home directory
-        run: | 
-          ssh ec2 '
-            #Now we have got the access of EC2 and we will start the deploy .
-            cd /opt/odoo-server/marine &&
-            git checkout main &&
-            git fetch --all &&
-            git reset --hard origin/main &&
-            git pull origin main &&
-            #docker-compose -f docker-compose.prod.yml up -d --build 
-          '
+        run: ssh ec2 'ls -la'
