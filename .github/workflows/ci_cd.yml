@@ -43,7 +43,8 @@ jobs:
         run: |
           ssh ec2 
             #Now we have got the access of EC2 and we will start the deploy .
-            cd /opt/odoo-server/marine/odoo_tryzex
+            pwd
+            cd //opt/odoo-server/marine/odoo_tryzex
             git checkout main
             git fetch --all
             git reset --hard origin/main
