@@ -73,7 +73,7 @@ jobs:
           echo "doing checkout" &&  
           git checkout main && 
           echo "doing fetch" && 
-          git fetch https://github.com/gathui/odoo_tryzex.git && 
+          sudo git fetch https://github.com/gathui/odoo_tryzex.git && 
           echo "Doing git reset" &&
           git reset --hard origin/main && 
           echo "pulling main" && 
