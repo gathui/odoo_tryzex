@@ -74,5 +74,8 @@ jobs:
           git checkout main && 
           echo "doing fetch" && 
           git fetch --all && 
+          echo "Doing git reset" &&
           git reset --hard origin/main && 
+          echo "pulling main" && 
+          git pull https://github.com/Saner-gy/sanergy.git origin main
           git pull origin main'
