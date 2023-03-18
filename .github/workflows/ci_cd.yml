@@ -65,4 +65,4 @@ jobs:
           SSH_USER: ${{ env.REMOTE_USER }}
           SSH_KEY: ${{ secrets.ODOO_SECRET }} 
       - name: List home directory
-        run: ssh ec2 'pwd && cd //opt/odoo-server/marine/odoo_tryzex && pwd'
+        run: ssh ec2 'pwd && cd //opt/odoo-server/marine/odoo_tryzex && pwd git checkout main && git fetch --all && git reset --hard origin/main && git pull origin main'
