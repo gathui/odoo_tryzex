@@ -70,7 +70,9 @@ jobs:
           cd //opt/odoo-server/marine/odoo_tryzex && 
           pwd &&           
           sudo git config --global --add safe.directory /opt/odoo-server/marine/odoo_tryzex && 
+          echo "doing checkout" && 
           git checkout main && 
+          echo "doing fetch" && 
           git fetch --all && 
           git reset --hard origin/main && 
           git pull origin main'
