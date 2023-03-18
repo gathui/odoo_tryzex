@@ -39,14 +39,17 @@ jobs:
           SSH_HOST: ${{ env.REMOTE_HOST }}
           SSH_USER: ${{ env.REMOTE_USER }}
           SSH_KEY: ${{ secrets.ODOO_SECRET }} 
+          source: "."
+          target: "//opt/odoo-server/marine/odoo_tryzex"
       - name: List home directory
         run: |
           ssh ec2 
+          ssh -i "gathui_aws.pem" ubuntu@ec2-18-191-183-32.us-east-2.compute.amazonaws.com
             #Now we have got the access of EC2 and we will start the deploy .
             pwd
             cd //
             ls -la
-            cd //opt/odoo-server/marine/odoo_tryzex
+            #cd //opt/odoo-server/marine/odoo_tryzex
             git checkout main
             git fetch --all
             git reset --hard origin/main
