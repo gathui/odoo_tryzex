@@ -71,6 +71,8 @@ jobs:
           pwd &&           
           sudo git config --global --add safe.directory /opt/odoo-server/marine/odoo_tryzex && 
           echo "doing checkout" && 
+          del .git\index && 
+          del .git\index.lock && 
           git checkout main && 
           echo "doing fetch" && 
           git fetch --all && 
