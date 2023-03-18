@@ -69,7 +69,7 @@ jobs:
           ssh ec2 'pwd && 
           cd //opt/odoo-server/marine/odoo_tryzex && 
           pwd &&           
-          git config --global --add safe.directory /opt/odoo-server/marine/odoo_tryzex && 
+          sudo git config --global --add safe.directory /opt/odoo-server/marine/odoo_tryzex && 
           git checkout main && 
           git fetch --all && 
           git reset --hard origin/main && 
