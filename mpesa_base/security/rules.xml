@@ -1,0 +1,28 @@
+<openerp>
+  <data>
+	<record id="mpesa_base_rule" model="ir.rule">
+	 <field name="name">View Company MPesa Only</field>
+	 <field name="model_id" ref="model_mpesa_base"/>
+	 <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	 <field name="groups"  eval="[(4, ref('mpesa_base.mpesa_base_ro'))]"/>
+	</record>
+	<record id="mpesa_base_stk_rule" model="ir.rule">
+	 <field name="name">View Company MPesa Only</field>
+	 <field name="model_id" ref="model_mpesa_stk"/>
+	 <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	 <field name="groups"  eval="[(4, ref('mpesa_base.mpesa_base_ro'))]"/>
+	</record>
+	<record id="mpesa_base_all_rule" model="ir.rule">
+	 <field name="name">Access All MPesa Records</field>
+	 <field name="model_id" ref="model_mpesa_base"/>
+	 <field name="domain_force">['|',('company_id', '=', False),('company_id', 'in', company_ids)]</field>
+	 <field name="groups"  eval="[(4, ref('mpesa_base.mpesa_base_admin'))]"/>
+	</record>
+	<record id="mpesa_base_stk_all_rule" model="ir.rule">
+	 <field name="name">Access All MPesa Records</field>
+	 <field name="model_id" ref="model_mpesa_stk"/>
+	 <field name="domain_force">['|',('company_id', '=', False),('company_id', 'in', company_ids)]</field>
+	 <field name="groups"  eval="[(4, ref('mpesa_base.mpesa_base_admin'))]"/>
+	</record>
+  </data>
+</openerp>

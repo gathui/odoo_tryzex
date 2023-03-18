@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem name="MPesa" id="mpesa_base_menu_root" web_icon="mpesa_base,static/description/icon.png"/>
+
+    <!-- menu groups -->
+    <menuitem name="M-Pesa" id="mpesa_base_menu" parent="mpesa_base_menu_root" sequence="1"/>
+    <menuitem name="Transactions" id="mpesa_base_entries" parent="mpesa_base_menu" action="mpesa_base_action_window" sequence="1"/>
+    <menuitem name="STK Requests" id="mpesa_base_stk_requests_menu" parent="mpesa_base_menu" action="mpesa_base_stk_action_window" sequence="2"/>
+
+    <menuitem name="Reconciliation" id="mpesa_base_recon" parent="mpesa_base_menu_root" action="" sequence="2"/>
+    <menuitem name="Import Recon" id="mpesa_base_recon_import" parent="mpesa_base_recon" action="action_import_mpesa_recon" sequence="1"/>
+    <menuitem name="Imported Recon Records" id="mpesa_base_recon_records" parent="mpesa_base_recon" action="mpesa_reconcile_action_window" sequence="2"/>
+    
+    <menuitem name="Settings" id="mpesa_base_settings" parent="mpesa_base_menu_root" action="" sequence="3"/>
+    <menuitem name="Custom Settings" id="mpesa_base_settings_menu" parent="mpesa_base_settings" action="action_mpesa_settings_form" sequence="1"/>
+    
+</odoo>

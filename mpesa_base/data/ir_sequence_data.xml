@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Sequences for MPesa Records-->
+        <record id="seq_mpesa_settings_record" model="ir.sequence">
+            <field name="name">MPesa Settings Sequence</field>
+            <field name="code">mpesa.settings</field>
+            <field name="prefix">MPESASETTING-</field>
+            <field name="padding">3</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+
+        <record id="seq_mpesa_transaction_record" model="ir.sequence">
+            <field name="name">MPesa Transaction Sequence</field>
+            <field name="code">mpesa.base</field>
+            <field name="prefix">MPESA-</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+
+        <!-- Sequences for MPesa STK Request Records-->
+        <record id="seq_mpesa_stk_record" model="ir.sequence">
+            <field name="name">MPesa STK Request Sequence</field>
+            <field name="code">mpesa.stk</field>
+            <field name="prefix">MPESASTK-</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+        <record id="seq_mpesa_recon_import" model="ir.sequence">
+            <field name="name">MPesa Recon Import Sequence</field>
+            <field name="code">mpesa.reconcile.import</field>
+            <field name="prefix">MPESARECON-</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+    </data>
+</odoo>

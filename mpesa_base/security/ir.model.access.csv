@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mpesa_base,access_mpesa_base,mpesa_base.model_mpesa_base,mpesa_base.mpesa_base_ro,1,0,0,0
+access_mpesa_base_co,access_mpesa_base_co,mpesa_base.model_mpesa_base,mpesa_base.mpesa_base_co,1,1,0,0
+
+access_mpesa_stk_base,access_mpesa_stk_base,mpesa_base.model_mpesa_stk,mpesa_base.mpesa_base_ro,1,0,0,0
+
+access_mpesa_settings_base,access_mpesa_settings_base,mpesa_base.model_mpesa_settings,mpesa_base.mpesa_base_admin,1,1,1,0
+
+access_mpesa_manual_match_co,access_mpesa_manual_match_co,mpesa_base.model_mpesa_manual_match,mpesa_base.mpesa_base_co,1,1,1,1
+
+access_mpesa_recon_co_admin,access_mpesa_recon_co_admin,mpesa_base.model_mpesa_reconcile,mpesa_base.mpesa_base_co_admin,1,1,1,1
+access_mpesa_recon_import_co_admin,access_mpesa_recon_import_co_admin,mpesa_base.model_mpesa_reconcile_import,mpesa_base.mpesa_base_co_admin,1,1,1,1
+access_mpesa_recon_view_co_admin,access_mpesa_recon_view_co_admin,mpesa_base.model_mpesa_reconcile_view,mpesa_base.mpesa_base_co_admin,1,1,1,1

@@ -1,0 +1,190 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record id="view_mpesa_filter" model="ir.ui.view">
+      <field name="name">mpesa.base.search</field>
+      <field name="model">mpesa.base</field>
+      <field name="arch" type="xml">
+        <search string="Search MPesa">
+          <field name="trans_id" />
+          <field name="payer_phone_number" string="Phone Number" />
+          <field name="bill_ref_number" />
+          <separator />
+          <filter string="Payment Entry Created" name="paid" domain="[('account_payment_id', '!=', None)]" />
+          <filter string="Payment Entry Pending" name="paid" domain="[('account_payment_id', '=', None)]" />
+          <separator />
+
+          <filter name="transaction_date_time" date="transaction_date_time" />
+          <group expand="0" string="Group By">
+            <filter string="Phone Number" name="payer_phone_number" domain="[]" context="{'group_by': 'payer_phone_number'}" />
+            <filter string="Transaction Date" name="transaction_date_time" date="transaction_date_time" domain="[]" context="{'group_by': 'transaction_date_time'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="mpesa_base_list">
+      <field name="name">mpesa_base_list</field>
+      <field name="model">mpesa.base</field>
+      <field name="arch" type="xml">
+        <tree default_order='transaction_date_time desc' create="false">
+          <field name="company_id" />
+          <field name="paybill_number" />
+          <field name="name" />
+          <field name="trans_id" />
+          <field name="bill_ref_number" />
+          <field name="payer_name" />
+          <field name="partner_id" widget="Many2one" />
+          <field name="payer_phone_number" widget="phone" />
+          <field name="auto_matched" />
+          <field name="trans_amount" />
+          <field name="amount_applied" />
+          <field name="amount_residual" />
+          <field name="account_payment_id" widget="Many2one" />
+          <field name="transaction_date_time" />
+          <field name="create_date" />
+          <field name="last_processed" />
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="mpesa_base_action_window">
+      <field name="name">MPesa</field>
+      <field name="res_model">mpesa.base</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- STK Requests -->
+    <record model="ir.ui.view" id="mpesa_base_stk_list">
+      <field name="name">mpesa_base_stk_list</field>
+      <field name="model">mpesa.stk</field>
+      <field name="arch" type="xml">
+        <tree create="false" decoration-danger="result_code!='0'">
+          <field name="name" />
+          <field name="company_id" />
+          <field name="amount" />
+          <field name="currency_id" />
+          <field name="merchant_request_id" />
+          <field name="checkout_request_id" />
+          <field name="result_code" />
+
+          <field name="phone_number" />
+          <field name="mpesa_receipt_number" />
+          <field name="transaction_date" />
+          <field name="reconciled" />
+          <field name="create_date" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="action_mpesa_manual_match" model="ir.actions.act_window">
+      <field name="name">Match MPesa Payment</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">mpesa.manual.match</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+    </record>
+
+    <!-- custom form view definition -->
+    <record model="ir.ui.view" id="mpesa_base_form">
+      <field name="name">mpesa.base.form</field>
+      <field name="model">mpesa.base</field>
+      <field name="arch" type="xml">
+        <form string="MPesa Transactions" no_create="1" create="false" edit="false">
+          <header>
+            <button type="object" name="search_for_partner" string="Auto Match Partner" class="btn-primary" attrs="{'invisible': [('partner_id', '!=', False)]}" />
+            <button name="%(action_mpesa_manual_match)d" type="action" string="Match Payments" class="btn-primary" attrs="{'invisible': [('partner_id', '!=', False)]}" context="{'default_mpesa_id':id, 'default_company_id':company_id}" />
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="paybill_number" readonly="1" />
+                -
+                <field name="name" />
+              </h1>
+              <h3>
+                <field name="company_id" />
+              </h3>
+            </div>
+            <separator orientation="horizontal" />
+            <group>
+              <group name="mpesa_data" string="MPesa Details">
+
+                <field name="trans_id" />
+                <field name="transaction_type" />
+                <field name="transaction_date_time" />
+                <field name="payer_phone_number" string="Phone Number" />
+                <field name="payer_name" />
+                <field name="trans_amount" />
+                <field name="bill_ref_number" />
+                <field name="third_party_trans_id" />
+              </group>
+              <group name="mpesa_customer" string="Customer Details">
+                <field name="partner_id" readonly="1" />
+                <field name="stk_id" />
+                <field name="account_payment_id" readonly="1" />
+                <field name="last_processed" />
+                <field name="comments" />
+                <field name="active" invisible="1" />
+              </group>
+            </group>
+
+            <group>
+              <field name="auto_matched" />
+              <field name="amount_applied" />
+              <field name="amount_residual" />
+            </group>
+            <group name="mpesa_metadata">
+              <group>
+                <field name="create_date" />
+                <field name="create_uid" />
+              </group>
+              <group>
+                <field name="write_date" />
+                <field name="write_uid" />
+              </group>
+            </group>
+
+          </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" />
+            <field name="activity_ids" widget="mail_activity" />
+            <field name="message_ids" widget="mail_thread" />
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="mpesa_base_stk_action_window">
+      <field name="name">MPesa STK Requests</field>
+      <field name="res_model">mpesa.stk</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="mpesa_manual_match_form">
+      <field name="name">mpesa.manual.match.form</field>
+      <field name="model">mpesa.manual.match</field>
+      <field name="arch" type="xml">
+        <form string="MPesa Transactions">
+          <header></header>
+          <h1>
+            <field name="mpesa_id" readonly="True" />
+          </h1>
+          <h3>
+            <field name="company_id" readonly="True" />
+          </h3>
+          <group name="mpesa_data">
+            <field name="partner_id" options='{"no_create": 1, "no_create_edit": 1}' domain="[('company_id','=',company_id)]" required="1" />
+
+            <field name="manual_reason" required="1" />
+          </group>
+          <footer>
+            <button name="update_manual_matching" string="Complete Matching" type="object" class="oe_highlight" confirm="Proceed to Manually Match this Payment?" />
+            <button string="Cancel" special="cancel" class="oe_highlight" />
+          </footer>
+        </form>
+      </field>
+    </record>
+
+  </data>
+</odoo>

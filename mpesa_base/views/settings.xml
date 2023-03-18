@@ -1,0 +1,68 @@
+<odoo>
+    <data>
+        <record id="mpesa_settings_list" model="ir.ui.view">
+            <field name="name">mpesa.settings.list</field>
+            <field name="model">mpesa.settings</field>
+            <field name="arch" type="xml">
+                <tree string="MPesa Custom Settings">
+                    <field name="name"/>
+                    <field name="company_id" />
+                    <field name="paybill_number"/>
+                    <field name="authorisation_url" />
+                </tree>
+            </field> 
+        </record>
+        
+        <record id="mpesa_settings_form" model="ir.ui.view">
+            <field name="name">mpesa.settings.form</field>
+            <field name="model">mpesa.settings</field>
+            <field name="arch" type="xml">
+                <form string="Settings">
+                    <header>
+                        <field name="name" readonly="1"/>                        
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="company_id" required="1" options='{"no_create": 1, "no_create_edit": 1}'/>
+                                <field name="paybill_number" required="1"/>
+                                <field name="mpesa_app" required="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Authorisation">
+                                <field name="authorisation_url" string="Authorisation URL"/>
+                                <field name="consumer_key" string="Consumer Key"/>
+                                <field name="consumer_secret" string="Consumer Secret"/>
+                            </group>
+                        </group>
+                        <group string="MPesa Express">
+                            <field name="mpesa_express_url"/>
+                            <field name="mpesa_express_pass_key"/>
+                        </group>
+                        <group string="Registration URLS">
+                            <field name="stk_confirmation_url" string="STK Confirmation URL" />
+                            <field name="c2b_confirmation_url" string="C2B Confirmation URL" />
+                            <field name="validation_url" string="Validation URL"/>
+                        </group>
+                        <group>
+                            <field name="stk_push_url" string="STK Push URL" />
+                        </group>
+                        <group>
+                            <field name="ar_account_id" options='{"no_create": 1, "no_create_edit": 1}' domain="[('company_id','=',company_id)]" required="1"/>
+                            <field name="journal_id" options='{"no_create": 1, "no_create_edit": 1}' domain="[('company_id','=',company_id)]" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_mpesa_settings_form" model="ir.actions.act_window">
+            <field name="name">MPesa Custom Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mpesa.settings</field>
+            <field name="view_mode">tree,form</field>
+            <field name="target">current</field>
+        </record>
+    </data>
+</odoo>

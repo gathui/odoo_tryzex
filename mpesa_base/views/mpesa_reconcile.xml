@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="mpesa_reconcile_form_view" model="ir.ui.view">
+        <field name="name">mpesa.reconcile.form.view</field>
+        <field name="model">mpesa.reconcile</field>
+        <field name="arch" type="xml">
+            <form string="Import MPesa Entries">
+                <group>
+                    <group>
+                        <!-- <field name="import_option" widget="radio"/>
+                        <field name="file"/> -->
+                    </group>
+                </group>
+                <footer></footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="mpesa_reconcile_import_form_view" model="ir.ui.view">
+        <field name="name">mpesa.reconcile.import.form.view</field>
+        <field name="model">mpesa.reconcile.import</field>
+        <field name="arch" type="xml">
+            <form string="Import MPesa Entries" edit="true" create="false" delete="false">
+                <header>
+                    <button name="import_mpesa_entries" string="Import" type="object" 
+                    class="oe_highlight"
+                    attrs="{'invisible': ['|','|',('file', '=', None),('file', '=', False),('paybill_number','=',None)]}" />
+                    <button string="Cancel" class="oe_highlight" special="cancel" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="paybill_number" required="1" />
+                            <field name="import_option" widget="radio" />
+                            <field name="file" accept="application/xls"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="mpesa_recon" string="MPesa Records">
+                            <field name="mpesa_recon_record_ids" mode="tree">
+                                <tree string="MPesa Records" delete="false" create="false" edit="false">
+                                    <field name="company_id" />
+                                    <field name="paybill_number" />
+                                    <field name="trans_id" />
+                                    <field name="transaction_type" />
+                                    <field name="transaction_date_time" />
+                                    <field name="payer_name" />
+                                    <field name="payer_phone_number" string="Phone Number" />
+                                    <field name="trans_amount" />
+                                    <field name="bill_ref_number" />
+                                    <field name="trans_details" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="missing_ids" string="Missing Records">
+                            <form>
+                                <header>
+                                    <button name="upload_missing_records" string="Upload Missing" type="object" class="oe_highlight" />
+                                    <button string="Cancel" class="oe_highlight" special="cancel" />
+                                </header>
+                            <field name="missing_recon_ids" mode="tree">
+                                <tree string="MPesa Records" delete="true" create="false" edit="true">
+                                    <field name="trans_id" readonly="1"/>
+                                    <field name="transaction_type" readonly="1"/>
+                                    <field name="transaction_date_time" readonly="1"/>
+                                    <field name="payer_name" readonly="1"/>
+                                    <field name="payer_phone_number" string="Phone Number" readonly="1" />
+                                    <field name="trans_amount" readonly="1" />
+                                    <field name="bill_ref_number" readonly="1" />
+                                    <field name="trans_details" readonly="1"/>
+                                </tree>
+                            </field>
+                                
+                            </form>
+                        </page>
+                        <page name="pg_error_mpesa_record_ids" string ="Error MPesa Records">
+                            <field name="error_mpesa_record_ids" mode="tree">
+                                <tree>
+                                    <field name="trans_id" readonly="1"/>
+                                    <field name="transaction_type" readonly="1"/>
+                                    <field name="transaction_date_time" readonly="1"/>
+                                    <field name="payer_phone_number" string="Phone Number" readonly="1" />
+                                    <field name="trans_amount" readonly="1" />
+                                    <field name="bill_ref_number" readonly="1" />
+                                    <field name="payer_name" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer></footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_mpesa_recon" model="ir.actions.act_window">
+        <field name="name">MPesa Import Reconciliation Records</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mpesa.reconcile.import</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.ui.view" id="mpesa_reconcile_list">
+        <field name="name">mpesa_reconcile_list</field>
+        <field name="model">mpesa.reconcile</field>
+        <field name="arch" type="xml">
+            <tree default_order='transaction_date_time desc' create="false">
+                <field name="reference" />
+                <field name="trans_id" />
+                <field name="transaction_type" />
+                <field name="transaction_date_time" />
+                <field name="payer_phone_number" string="Phone Number" />
+                <field name="trans_amount" />
+                <field name="bill_ref_number" />
+                <field name="trans_details" />
+                <field name="create_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="mpesa_reconcile_action_window">
+        <field name="name">MPesa Reconcile</field>
+        <field name="res_model">mpesa.reconcile</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
