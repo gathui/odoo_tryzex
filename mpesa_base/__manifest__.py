@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "mpesa_base",
+    'name': "MPesa Base",
 
     'summary': """
        Hold Base Functionality for MPesa""",

@@ -172,9 +172,9 @@ class MpesaBase(http.Controller):
         stk_response = json.loads(request.httprequest.data)
         _logger.warning('STK Called >>> \n' + str(stk_response))
         
-        if check_if_sandbox_env_safe== False:
-            return
-        print('LOG paybill_number >>>',paybill_number)
+        # if check_if_sandbox_env_safe== False:
+        #     return
+        # print('LOG paybill_number >>>',paybill_number)
         try:
             if stk_response:
                 _paybill_number = paybill_number
