@@ -2,7 +2,8 @@
 
 import re
 from odoo import _, http
-from odoo.http import request, JsonRequest, Response
+from odoo.http import request, Response
+from marine_utils.models.http import JsonRequest
 import json
 import requests
 from requests.auth import HTTPBasicAuth
