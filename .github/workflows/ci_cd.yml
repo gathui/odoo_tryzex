@@ -75,4 +75,6 @@ jobs:
           echo "doing fetch" && 
           git fetch --all && 
           git reset --hard origin/main && 
-          git pull origin main'
+          git pull origin main && 
+          sudo service odoo restart
+          '

@@ -3,7 +3,7 @@
 import re
 from odoo import _, http
 from odoo.http import request, Response
-from marine_utils.models.http import JsonRequest
+# from marine_utils.models.http import JsonRequest
 import json
 import requests
 from requests.auth import HTTPBasicAuth
@@ -69,7 +69,7 @@ class MpesaBase(http.Controller):
                 "ResultDesc": "Accepted"
             }
             
-            request._json_response = alternative_json_response.__get__(request, JsonRequest)
+            # request._json_response = alternative_json_response.__get__(request, JsonRequest)
 
             return respval 
         except Exception as e:
@@ -85,7 +85,7 @@ class MpesaBase(http.Controller):
             return
         mpesa_settings = request.env['mpesa.settings'].sudo().search([('paybill_number','=',paybill_number),
         ('active','=',True)], limit=1)
-        request._json_response = alternative_json_response.__get__(request, JsonRequest)
+        # request._json_response = alternative_json_response.__get__(request, JsonRequest)
         try:
             mpesa_payment = request.jsonrequest or {}
             print('MPesa Confirm Params: ', mpesa_payment)
