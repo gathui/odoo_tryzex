@@ -33,8 +33,7 @@
               <group>
                 <field name="gender"/>
                 <field name="national_id"/>
-                <field name="passport_id"/>
-                
+                <field name="passport_id"/>                
               </group>
             </group>
             

@@ -10,9 +10,9 @@ import random
 
 class ResPartnerInherit(models.Model):
     _inherit = "res.partner"
-    _check_company_auto = True
+    # _check_company_auto = True
 
-    company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
+    company_id = fields.Many2one('res.company', string="Company",  default=lambda self: self.env.company)
     first_name = fields.Char(string="First Name")
     last_name = fields.Char(string="Last Name")
     physical_address = fields.Char(string="Last Name")
