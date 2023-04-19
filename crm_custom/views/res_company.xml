@@ -1,0 +1,20 @@
+<odoo>
+  <data>
+    <record id="base_view_company_info_form_inherit" model="ir.ui.view">
+      <field name="name">base_view_company_info_form_inherit</field>
+      <field name="model">res.company</field>
+      <field name="inherit_id" ref="base.view_company_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//group[@name='social_media']" position="after">
+          <group name="company_emails" string="Company Emails">
+            <field name="procurement_email" />
+            <field name="recruitment_email" />
+          </group>
+          <group name="company_defaults" string="Company Defaults">
+            <field name="case_file_prefixcode" />
+          </group>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

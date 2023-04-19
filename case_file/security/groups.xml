@@ -1,0 +1,35 @@
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="case_file.module_case_file">
+            <field name="name">Case File</field>
+            <field name="description">Case File</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="case_file_ro" model="res.groups" forcecreate="1">
+            <field name="name">Read Only User</field>
+            <field name="category_id" ref="case_file.module_case_file" />
+            <field name="comment">The user has read-only permissions on Case File modules</field>
+        </record>
+
+        <record id="case_file_lawyer" model="res.groups" forcecreate="1">
+            <field name="name">Lawyer User</field>
+            <field name="category_id" ref="case_file.module_case_file" />
+            <field name="comment">The user has Lawyer Access to Case File modules</field>
+            <field name="implied_ids" eval="[(4, ref('case_file.case_file_ro'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>  
+
+        <record id="case_file_admin" model="res.groups" forcecreate="1">
+            <field name="name">Admin User</field>
+            <field name="category_id" ref="case_file.module_case_file" />
+            <field name="comment">The user has Admin Access to Case File modules</field>
+            <field name="implied_ids" eval="[(4, ref('case_file.case_file_ro')),(4, ref('case_file.case_file_lawyer'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>  
+        
+        <!-- <record id="case_file.case_file" model="ir.ui.menu" >
+            <field name="groups_id" eval="[(6, 0, [ref('case_file.case_file_ro')])]"/>
+       </record> -->
+    </data>
+</odoo>

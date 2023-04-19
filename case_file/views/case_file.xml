@@ -1,0 +1,198 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="case_file_category_list">
+      <field name="name">case_file_category_list</field>
+      <field name="model">case.file.category</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="company_id"
+            options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+          <field name="name" />
+          <field name="code" />
+          <field name="active" />
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="case_file_subcategory_list">
+      <field name="name">case_file_subcategory_list</field>
+      <field name="model">case.file.subcategory</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="company_id"
+            options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+          <field name="name" />
+          <field name="category_id"
+            options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+          <field name="active" />
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="case_file_list">
+      <field name="name">case_file_list</field>
+      <field name="model">case.file</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="company_id" invisible="1" />
+          <field name="name" />
+          <field name="claimant_id" domain="[('company_id', '=', company_id)]"/>
+          <field name="respondent_ids" />
+          <field name="reference" />
+          <field name="category_id" />
+          <field name="subcategory_id" />
+          <field name="start_date" />
+          <field name="end_date" />
+          <field name="state" widget="Selection" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="case_file_form" model="ir.ui.view">
+      <field name="name">case.file.form</field>
+      <field name="model">case.file</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <header>
+            <field name="state" widget="statusbar" />
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name" readonly="1" />
+              </h1>
+            </div>
+            <group>
+              <group string="Parties">
+                <field name="claimant_id" domain="[('company_id', '=', company_id)]"
+                  options="{'no_open': False,'no_create': True, 'no_create_edit':True}" />
+                <field name="respondent_ids" required="1" widget="many2many_tags" domain="[('company_id', '=', company_id)]"
+                  options="{'no_open': False,'no_create': True, 'no_create_edit':True}" />
+              </group>
+              <group string="Reference">
+                <field name="reference" required="1" />
+                <field name="case_number" required="1" />
+                <field name="tracking_number" required="1" />
+                <field name="citation_reference" required="1" />
+              </group>
+            </group>
+            <separator />
+            <group>
+              <div id="case_file_dates" class="oe_row">
+                <b>
+                  <label for="start_date" string="Dates" />
+                </b>
+                <field name="start_date" placeholder="Start Date" required="1" />
+                <field name="end_date" placeholder="End Date" />
+              </div>
+
+              <group>
+                <div id="case_file_category" class="oe_row" colspan="2">
+                  <label for="category_id" string="Category" />
+                  <field name="category_id" required="1" placeholder="Category" domain="[('company_id', '=', company_id)]"
+                    options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+                  <field name="subcategory_id" placeholder="Sub Category" domain="[('company_id', '=', company_id)]"
+                    options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+                </div>
+              </group>
+            </group>
+            <group>
+              <group>
+                <field name="case_commentary" colspan="3" widget="html" />
+              </group>
+            </group>
+            <notebook id="cf_notebook">
+              <page id="pg_details" string="Details">
+                <field name="details" colspan="3" widget="html" />
+              </page>
+              <page id="pg_case_contacts" string="Case Contacts">
+                <field name="case_contact_ids" domain="[('company_id', '=', company_id)]">
+                  <tree default_order="create_date desc">
+                    <field name="name" />
+                    <field name="contact_name" />
+                    <field name="contact_type" />
+                    <field name="description" />
+                    <field name="partner_id" options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}"/>
+                    <field name="phone_number" />
+                    <field name="email" />
+                    <field name="description" optional="hide" />
+                  </tree>
+                </field>
+              </page>
+              <page id="pg_other_info" string="Other Info">
+                <group>
+                  <group>
+                    <field name="company_id"
+                      options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+                  </group>
+                  <group>
+
+                  </group>
+                </group>
+
+              </page>
+            </notebook>
+          </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" />
+            <field name="activity_ids" widget="mail_activity" />
+            <field name="message_ids" widget="mail_thread" />
+          </div>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="case_file_category_action_window">
+      <field name="name">Category</field>
+      <field name="res_model">case.file.category</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="case_file_subcategory_action_window">
+      <field name="name">Sub Category</field>
+      <field name="res_model">case.file.subcategory</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="case_file_action_window">
+      <field name="name">Case Files</field>
+      <field name="res_model">case.file</field>
+      <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="case_file.action_server">
+      <field name="name">case_file server</field>
+      <field name="model_id" ref="model_case_file_case_file"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="case_file" id="case_file.menu_root"/>
+-->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="case_file.menu_1" parent="case_file.menu_root"/>
+    <menuitem name="Menu 2" id="case_file.menu_2" parent="case_file.menu_root"/>
+-->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="case_file.menu_1_list" parent="case_file.menu_1"
+              action="case_file.action_window"/>
+    <menuitem name="Server to list" id="case_file" parent="case_file.menu_2"
+              action="case_file.action_server"/>
+-->
+  </data>
+</odoo>

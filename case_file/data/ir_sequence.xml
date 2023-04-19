@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="seq_case_file" model="ir.sequence">
+            <field name="name">Case File</field>
+            <field name="code">case.file</field>
+            <field name="prefix">%(year)s/%(month)s/</field>
+            <!-- <field eval="1" name="number_next"/>			 -->
+            <field eval="1" name="number_increment"/>			
+            <field eval="True" name="use_date_range"/>			
+            <field name="padding">4</field>	
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+        <record id="seq_case_contact" model="ir.sequence">
+            <field name="name">Case File Contact</field>
+            <field name="code">case.contact</field>
+            <field name="prefix">CS</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+        <record id="seq_case_file_category" model="ir.sequence">
+            <field name="name">Case File Category</field>
+            <field name="code">case.file.category</field>
+            <field name="prefix">CC</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+        <record id="seq_case_file_subcategory" model="ir.sequence">
+            <field name="name">Case File Subcategory</field>
+            <field name="code">case.file.subcategory</field>
+            <field name="prefix">CS</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+
+    </data>
+</odoo>

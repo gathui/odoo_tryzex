@@ -1,0 +1,108 @@
+<odoo>
+  <data>
+    <record id="crm_custom_res_partner_inherit_form" model="ir.ui.view">
+      <field name="name">crm.custom.res.partner.inherit.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='name']" position="attributes">
+          <attribute name="readonly">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='ref']" position="attributes">
+          <attribute name="readonly">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='title']" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//div[@class='oe_title mb24']" position="after">
+          <div id="partner_name" class="oe_row">
+            <label for="first_name" string="First/Last Name" />
+            <field name="title" placeholder="Title" />
+            <field name="first_name" placeholder="First Name" />
+            <field name="last_name" placeholder="Last Name" />
+          </div>
+        </xpath>
+        <xpath expr="//page[@name='internal_notes']" position="before">
+          <page string="Bio Data" name="pg_bio_data" >
+            <group>
+              <group>
+                <field name="gender"/>
+                <field name="date_of_birth"/>
+                <field name="age"/>
+              </group>
+              <group>
+                <field name="gender"/>
+                <field name="national_id"/>
+                <field name="passport_id"/>
+                
+              </group>
+            </group>
+            
+          </page>
+          <page string="Next of Kin" name="pg_next_of_kin" >            
+            <field name="next_of_kin_ids" mode="tree" string="Next of Kin" 
+            domain="[('company_id', '=', company_id)]"
+            />
+          </page>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="crm_custom.list">
+      <field name="name">crm_custom list</field>
+      <field name="model">crm_custom.crm_custom</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="crm_custom.action_window">
+      <field name="name">crm_custom window</field>
+      <field name="res_model">crm_custom.crm_custom</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="crm_custom.action_server">
+      <field name="name">crm_custom server</field>
+      <field name="model_id" ref="model_crm_custom_crm_custom"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="crm_custom" id="crm_custom.menu_root"/>
+-->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="crm_custom.menu_1" parent="crm_custom.menu_root"/>
+    <menuitem name="Menu 2" id="crm_custom.menu_2" parent="crm_custom.menu_root"/>
+-->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="crm_custom.menu_1_list" parent="crm_custom.menu_1"
+              action="crm_custom.action_window"/>
+    <menuitem name="Server to list" id="crm_custom" parent="crm_custom.menu_2"
+              action="crm_custom.action_server"/>
+-->
+  </data>
+</odoo>

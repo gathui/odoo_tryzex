@@ -1,0 +1,10 @@
+<odoo>
+    <menuitem name="Case File" id="menu_case_file_root" web_icon="case_file,static/description/icon.png"/>
+    <menuitem name="Case File"  id="menu_case_file" action="case_file_action_window" parent="menu_case_file_root" sequence="1"/>
+    
+    <menuitem name="Settings"  id="menu_case_file_settings"  parent="menu_case_file_root" sequence="2"/>
+    <menuitem name="Category"  id="menu_case_file_category" action="case_file_category_action_window" parent="menu_case_file_settings" sequence="1"/>
+    <menuitem name="Sub Category"  id="menu_case_file_subcategory" action="case_file_subcategory_action_window" parent="menu_case_file_settings" sequence="2"/>
+</odoo>
+
+    

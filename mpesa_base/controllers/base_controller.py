@@ -137,7 +137,7 @@ class MpesaBase(http.Controller):
     #STK/Lipa Na Mpesa Express Confirmation URL
     @http.route('/lipa_online/stk_confirmation_url/<int:paybill_number>', auth='public', type='json')
     def stk_confirmation_url(self, paybill_number, **args):
-        _logger.warning('Confirmation URL Initiated >>>')
+        _logger.warning('Confirmation URL Initiated >>>>>')
         if check_if_sandbox_env_safe  == False:
             return
 
@@ -174,7 +174,7 @@ class MpesaBase(http.Controller):
         
         # if check_if_sandbox_env_safe== False:
         #     return
-        # print('LOG paybill_number >>>',paybill_number)
+        # print('LOG paybill_number >>>>>',paybill_number)
         try:
             if stk_response:
                 _paybill_number = paybill_number
