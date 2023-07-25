@@ -1,4 +1,5 @@
-name: ssh-into-aws-ec2
+
+name: ssh-into-contabo
 
 on:
   push:
@@ -9,8 +10,8 @@ on:
 env:
 #  bucket_name: "<example-bucket-name>"
   AWS_REGION: "us-east-2"
-  REMOTE_HOST: "ec2-18-191-183-32.us-east-2.compute.amazonaws.com"
-  REMOTE_USER: "ubuntu"
+  REMOTE_HOST: "149.102.158.135"
+  REMOTE_USER: "jnguyo"
 
 permissions:
   contents: read
@@ -38,7 +39,7 @@ jobs:
         env:
           SSH_HOST: ${{ env.REMOTE_HOST }}
           SSH_USER: ${{ env.REMOTE_USER }}
-          SSH_KEY: ${{ secrets.ODOO_SECRET }} 
+          SSH_KEY: ${{ secrets.ODOO_CONTABO_SECRET }} 
       - name: List home directory
         run: ssh ec2 'ls -la'
   
@@ -67,9 +68,9 @@ jobs:
       - name: List home directory
         run: |
           ssh ec2 'pwd && 
-          cd //opt/odoo-server/marine/odoo_tryzex && 
+          cd //opt/odoo-server/odoo_tryzex && 
           pwd &&           
-          sudo git config --global --add safe.directory /opt/odoo-server/marine/odoo_tryzex && 
+          sudo git config --global --add safe.directory /opt/odoo-server/odoo_tryzex && 
           echo "doing checkout" &&  
           git checkout main && 
           echo "doing fetch" && 
