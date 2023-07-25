@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="seq_minimum_wage" model="ir.sequence">
+            <field name="name">Minimum Wage</field>
+            <field name="code">minimum.wage</field>
+            <field name="prefix">MW</field>
+            <!-- <field eval="1" name="number_next"/>			 -->
+            <field eval="1" name="number_increment"/>			
+            <field eval="True" name="use_date_range"/>			
+            <field name="padding">4</field>	
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+
+        <record id="seq_minimum_wage_calculator" model="ir.sequence">
+            <field name="name">Minimum Wage Calculator</field>
+            <field name="code">minimum.wage.calculator</field>
+            <field name="prefix">MWC</field>
+            <!-- <field eval="1" name="number_next"/>			 -->
+            <field eval="1" name="number_increment"/>				
+            <field name="padding">5</field>	
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+
+        <record id="seq_employment_history" model="ir.sequence">
+            <field name="name">Employment History</field>
+            <field name="code">employment.history</field>
+            <field name="prefix">MWEH</field>
+            <!-- <field eval="1" name="number_next"/>			 -->
+            <field eval="1" name="number_increment"/>				
+            <field name="padding">6</field>	
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+
+        <record id="seq_monthl_salary" model="ir.sequence">
+            <field name="name">Monthly Salary</field>
+            <field name="code">monthly.salary</field>
+            <field name="prefix">MWMS</field>
+            <!-- <field eval="1" name="number_next"/>			 -->
+            <field eval="1" name="number_increment"/>				
+            <field name="padding">6</field>	
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+    </data>
+</odoo>

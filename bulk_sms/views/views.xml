@@ -1,0 +1,111 @@
+<odoo>
+  <data>
+    <record id="sanergy_toilet_view_filter" model="ir.ui.view">
+      <field name="name">bulk.sms.search</field>
+      <field name="model">bulk.sms</field>
+      <field name="arch" type="xml">
+          <search string="SMS">
+              <filter string="Processed" name="processed" domain="[('processed', '=', True)]" />
+              <filter string="Pending" name="pending" domain="[('processed', '=', False)]" />
+              
+              <field name="phone_number" widget="selection" />
+              <field name="sms_tag" widget="selection" />
+              <group expand="0" string="Group By">
+                  <filter name="status_code_description" string="Status Code" domain="[]" context="{'group_by': 'status_code_description'}" />
+                  <filter name="sms_tag" string="SMS Tag" domain="[]" context="{'group_by': 'sms_tag'}" />
+                                    
+                  <separator orientation="vertical" />
+                  <filter string="Scheduled Date" context="{'group_by':'scheduled_send_date:month'}" name="month" />
+                  <filter string="Processed Date" context="{'group_by':'processed_time:month'}" name="month" />
+
+              </group>
+          </search>
+      </field>
+  </record>
+    <record model="ir.ui.view" id="bulk_sms_list">
+      <field name="name">Sanergy Bulk SMS</field>
+      <field name="model">bulk.sms</field>
+      <field name="arch" type="xml">
+        <tree default_order='name desc' delete="false" edit="false">
+          <field name="name" readonly="1" />
+          <field name="phone_number" attrs="{'readonly': [('processed', '=', True)]}" />
+          <field name="text_message" attrs="{'readonly': [('processed', '=', True)]}" />
+          <field name="scheduled_send_date" attrs="{'readonly': [('processed', '=', True)]}" />
+          <field name="retry_duration" attrs="{'readonly': [('processed', '=', True)]}" />
+          <field name="processed" attrs="{'readonly': [('processed', '=', True)]}" />
+          <field name="processed_time" readonly="1" />
+          <field name="message_id" readonly="1" optional="hide"/>
+          <field name="status_code" readonly="1" />
+          <field name="status_code_description" readonly="1" />
+          <field name="cost" readonly="1" />
+          <field name="company_id" attrs="{'readonly': [('processed', '=', True)]}" />
+          <field name="related_record" />
+          <field name="sms_tag" widget="badge" />
+        </tree>
+      </field>
+    </record>
+    <record id="bulk_sms_view_form" model="ir.ui.view">
+      <field name="name">Sanergy Bulk SMS</field>
+      <field name="model">bulk.sms</field>
+      <field name="arch" type="xml">
+        <form string="Collections">
+          <sheet>
+            <field name="active" invisible="1"/>
+            <!-- <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}" />
+            <widget name="web_ribbon" title="Sent" bg_color="bg-success" attrs="{'invisible': [('processed', '!=', True)]}" />
+            <widget name="web_ribbon" title="Pending" bg_color="bg-warning" attrs="{'invisible': [('processed', '=', 'True')]}" /> -->
+            
+            <div class="oe_title">
+              <h1>
+                <field name="name" readonly="1" />
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field name="phone_number" required="True" attrs="{'readonly': [('processed', '=', True)]}" />
+                <field name="scheduled_send_date" required="True" attrs="{'readonly': [('processed', '=', True)]}" />
+                <field name="text_message" required="True" attrs="{'readonly': [('processed', '=', True)]}" widget="text" />              
+              </group>
+              <group>
+                <field name="company_id" attrs="{'readonly': [('processed', '=', True)]}" />
+                <field name="related_record" attrs="{'readonly': [('processed', '=', True)]}" />
+                <field name="retry_duration" attrs="{'readonly': [('processed', '=', True)]}" />
+                <field name="sms_tag" attrs="{'readonly': [('processed', '=', True)]}" />
+              </group>
+            </group>
+            <group>
+              <group>
+                <field name="processed" attrs="{'readonly': [('processed', '=', True)]}" />
+                <field name="processed_time" readonly="1" />
+                <field name="cost" readonly="1" />
+                <field name="max_retries" readonly="1" />
+              </group>
+              <group>
+                <field name="message_id" readonly="1" />
+                <field name="status_code" readonly="1" />
+                <field name="status_code_description" readonly="1" />
+              </group>
+            </group>
+            <separator orientation="vertical" />
+            <group>
+              <group>
+                <field name="create_uid" />
+                <field name="create_date" />
+              </group>
+              <group>
+                <field name="write_uid" />
+                <field name="write_date" />
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="bulk_sms_action_window">
+      <field name="name">Sanergy Bulk SMS</field>
+      <field name="res_model">bulk.sms</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+  </data>
+</odoo>

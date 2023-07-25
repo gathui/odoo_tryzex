@@ -1,0 +1,76 @@
+<odoo>
+	<data>
+		<record id="case_file_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company records only</field>
+			<field name="model_id" ref="model_case_file" />
+			<field name="global" eval="True" />
+			<field name="domain_force">[('company_id', 'in', company_ids)]
+			</field>
+			<!-- <field name="groups" eval="[(4, ref('base.group_user'))]" /> -->
+		</record>
+
+		<record id="case_document_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company Documents only</field>
+			<field name="model_id" ref="model_case_document" />
+			<field name="global" eval="True" />
+			<field name="domain_force">[('company_id', 'in', company_ids)]
+			</field>
+		</record>
+
+		<record id="case_file_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company Case Files only</field>
+			<field name="model_id" ref="model_case_file" />
+			<field name="global" eval="True" />
+			<field name="domain_force">[('company_id', 'in', company_ids)]
+			</field>
+		</record>
+
+		<record id="case_outcome_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company Case Outcomes only</field>
+			<field name="model_id" ref="model_case_outcome" />
+			<field name="global" eval="True" />
+			<field name="domain_force">[('company_id', 'in', company_ids)]
+			</field>
+		</record>
+
+		<record id="case_file_category_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company Case File Categories only</field>
+			<field name="model_id" ref="model_case_file_category" />
+			<field name="global" eval="True" />
+			<field name="domain_force">[('company_id', 'in', company_ids)]
+			</field>
+		</record>
+
+		<record id="case_file_subcategory_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company Case File SubCategories only</field>
+			<field name="model_id" ref="model_case_file_subcategory" />
+			<field name="global" eval="True" />
+			<field name="domain_force">[('company_id', 'in', company_ids)]
+			</field>
+		</record>
+
+		<record id="case_reference_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company Case References only</field>
+			<field name="model_id" ref="model_case_reference" />
+			<field name="global" eval="True" />
+			<field name="domain_force">[('company_id', 'in', company_ids)]
+			</field>
+		</record>
+
+		<record id="case_contact_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company Case Contacts only</field>
+			<field name="model_id" ref="model_case_contact" />
+			<field name="global" eval="True" />
+			<field name="domain_force">[('company_id', 'in', company_ids)]
+			</field>
+		</record>
+
+		<record id="case_document_type_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company Case Document Types only</field>
+			<field name="model_id" ref="model_case_document_type" />
+			<field name="global" eval="True" />
+			<field name="domain_force">[('company_id', 'in', company_ids)]
+			</field>
+		</record>
+	</data>
+</odoo>

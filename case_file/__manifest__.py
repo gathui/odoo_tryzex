@@ -19,14 +19,21 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','mail'],
+    'depends': ['base','mail', 'account','hr_expense'],
 
     # always loaded
     'data': [
         'data/ir_sequence.xml',
         'security/groups.xml',
         'security/ir.model.access.csv',
+        'security/rules.xml',
+        'views/court.xml',
+        'views/case_contact.xml',
         'views/case_file.xml',
+        'views/case_document.xml',
+        'views/hr_expense.xml',
+        'views/account_move.xml',
+        'views/case_act.xml',
         'views/menus.xml',
     ],
     # only loaded in demonstration mode

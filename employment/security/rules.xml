@@ -1,0 +1,11 @@
+<odoo>
+	<data>
+		<record id="employment_multicompany_rule" model="ir.rule">
+			<field name="name">Users to view Company records only</field>
+			<field name="model_id" ref="model_employment" />
+			<field name="global" eval="True" />
+			<!-- <field name="groups" eval="[(4, ref('base.group_user'))]" /> -->
+		</record>
+
+	</data>
+</odoo>

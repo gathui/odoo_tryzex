@@ -1,0 +1,158 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="minimum_wage_list">
+      <field name="name">minimum_wage_list</field>
+      <field name="model">minimum.wage</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+          <field name="year" />
+          <field name="effective_date" />
+          <field name="end_date" />
+          <field name="job_type" />
+          <field name="sequence" />
+          <field name="cat_1_per_hr" />
+          <field name="cat_1_per_day" />
+          <field name="cat_1_per_month" />
+          <field name="cat_2_per_hr" />
+          <field name="cat_2_per_day" />
+          <field name="cat_2_per_month" />
+          <field name="cat_3_per_hr" />
+          <field name="cat_3_per_day" />
+          <field name="cat_3_per_month" />
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="minimum_wage_form">
+      <field name="name">minimum_wage_form</field>
+      <field name="model">minimum.wage</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="year" required="1"/>
+              <field name="effective_date"  required="1"/>
+              <field name="end_date"  required="1"/>
+              <field name="job_type"  required="1"/>
+              <field name="sequence" />
+              <field name="cat_1_per_hr" />
+              <field name="cat_1_per_day" />
+              <field name="cat_1_per_month" />
+              <field name="cat_2_per_hr" />
+              <field name="cat_2_per_day" />
+              <field name="cat_2_per_month" />
+              <field name="cat_3_per_hr" />
+              <field name="cat_3_per_day" />
+              <field name="cat_3_per_month" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_minimum_wage">
+      <field name="name">Minimum Wage</field>
+      <field name="res_model">minimum.wage</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="minimum_wage_calculator_form">
+      <field name="name">minimum_wage_calculator_form</field>
+      <field name="model">minimum.wage.calculator</field>
+      <field name="arch" type="xml">
+        <form >
+          <header>
+            <button string="Compute Wages" name="compute_monthly_wages" type="object"
+              class="oe_highlight" />
+            <button string="Excel" name="export_to_excel" type="object"
+              class="oe_highlight" />
+          </header>
+          <sheet>
+            <group>
+              <field name="region" required="1"/>
+              <field name="job_type" required="1"/>
+            </group>
+            <notebook>
+              <page id="pg_emp_history" string="01: Employment History">
+                <field name="employment_history_ids" mode="tree" >
+                  <tree multi_edit="1" editable="top">
+                    <field name="name" />
+                    <field name="min_wage_calc_id" />
+                    <field name="job_grade_id" domain="[('effective_date','&gt;=',start_date),('effective_date','&lt;=',end_date)]"/>
+                    <field name="start_date" />
+                    <field name="end_date" />
+                    <field name="monthly_salary" />
+                    <field name="job_grade_id" optional="hide"/>
+                  </tree>
+                </field>
+              </page>
+
+              <page id="pg_monthly_wages" string="02: Monthly Wages">
+                <field name="monthly_salary_ids" mode="tree" >
+                  <tree multi_edit="1" editable="top">
+                    <field name="name" />
+                    <field name="min_wage_calc_id" optional="hide"/>
+                    <field name="start_date" />
+                    <field name="end_date" />
+                    <field name="monthly_salary" />
+                    <field name="minimum_wage" />
+                    <field name="wage_variance" />
+                    <field name="effective_wage_order_id" optional="hide"/>
+                  </tree>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" options="{'post_refresh': 'recipients'}" />
+                    </div>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_minimum_wage_calculator">
+      <field name="name">Minimum Wage Calculator</field>
+      <field name="res_model">minimum.wage.calculator</field>
+      <field name="view_mode">form</field>
+    </record>
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="employment.action_server">
+      <field name="name">employment server</field>
+      <field name="model_id" ref="model_employment_employment"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="employment" id="employment.menu_root"/>
+-->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="employment.menu_1" parent="employment.menu_root"/>
+    <menuitem name="Menu 2" id="employment.menu_2" parent="employment.menu_root"/>
+-->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="employment.menu_1_list" parent="employment.menu_1"
+              action="employment.action_window"/>
+    <menuitem name="Server to list" id="employment" parent="employment.menu_2"
+              action="employment.action_server"/>
+-->
+  </data>
+</odoo>

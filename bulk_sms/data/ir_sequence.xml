@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="seq_bulk_sms_setting" model="ir.sequence">
+            <field name="name">Bulk SMS Setting</field>
+            <field name="code">bulk.sms.setting</field>
+            <field name="prefix">SMSSET</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+
+        <record id="seq_bulk_sms" model="ir.sequence">
+            <field name="name">Bulk SMS</field>
+            <field name="code">bulk.sms</field>
+            <field name="prefix">SMS</field>
+            <field name="padding">8</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+            <field name="active">TRUE</field>
+        </record>
+
+    </data>
+</odoo>

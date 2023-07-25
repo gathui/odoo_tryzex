@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_minimum_wage_ro,access_minimum_wage_ro,model_minimum_wage,base.group_user,1,0,0,0
+access_minimum_wage_lawyer,access_minimum_wage_lawyer,model_minimum_wage,base.group_user,1,1,1,0
+
+access_employment_history_ro,access_employment_history_ro,model_employment_history,base.group_user,1,1,1,1
+access_monthly_salary_ro,access_monthly_salary_ro,model_monthly_salary,base.group_user,1,1,1,1
+access_minimum_wage_calculator_ro,access_minimum_wage_calculator_ro,model_minimum_wage_calculator,base.group_user,1,1,1,1

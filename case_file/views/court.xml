@@ -1,0 +1,78 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="court_rank_list">
+      <field name="name">court_rank_list</field>
+      <field name="model">court.rank</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+          <field name="rank" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="court_rank_form" model="ir.ui.view">
+      <field name="name">court_rank_form</field>
+      <field name="model">court.rank</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <sheet>
+            <group>
+              <field name="name" required="1" />
+              <field name="rank" required="1" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record model="ir.actions.act_window" id="court_rank_action_window">
+      <field name="name">Court Rank</field>
+      <field name="res_model">court.rank</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="court_list">
+      <field name="name">court_list</field>
+      <field name="model">court</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="reference" />
+          <field name="county_id" />
+          <field name="subcounty_id" />
+          <field name="court_rank_id" />
+          <field name="name" />
+          <field name="reference" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="court_form" model="ir.ui.view">
+      <field name="name">court_form</field>
+      <field name="model">court</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <sheet>
+            <group>
+              <field name="reference"  required="1"/>
+              <field name="county_id"  required="1"/>
+              <field name="subcounty_id" />
+              <field name="court_rank_id"  required="1"/>
+              <field name="name" required="1"/>
+            </group>
+            <group>
+
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="court_action_window">
+      <field name="name">Court</field>
+      <field name="res_model">court</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+  </data>
+</odoo>

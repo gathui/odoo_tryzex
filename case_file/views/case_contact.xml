@@ -1,0 +1,77 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="case_file_contact_list">
+      <field name="name">case_file_contact_list</field>
+      <field name="model">case.contact</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="ref" />
+          <field name="case_file_id" />
+          <field name="name" />
+          <field name="contact_type" />
+          <field name="partner_id" />
+          <field name="phone_number" />
+          <field name="email" />
+          <field name="description" optional="hide" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="case_contact_form" model="ir.ui.view">
+      <field name="name">case.contact.form</field>
+      <field name="model">case.contact</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <header>
+            <!-- <field name="state" widget="statusbar" /> -->
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name" />
+              </h1>
+              <field name="case_file_id" />
+              <field name="company_id" />
+
+            </div>
+            <group>
+              <group string="Parties">
+                <field name="name" required="1" />
+                <field name="contact_type" required="1" />
+                <field name="partner_id" domain="[('company_id', '=', company_id)]"
+                  options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+              </group>
+              <group string="Reference">
+                <field name="phone_number" required="1" />
+                <field name="alt_phone_number" />
+                <field name="email" />
+                <field name="active" />
+              </group>
+            </group>
+            <separator />
+
+            <group>
+              <group>
+                <field name="description" colspan="3" widget="html" />
+              </group>
+            </group>
+
+          </sheet>
+          <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers" />
+            <field name="activity_ids" widget="mail_activity" />
+            <field name="message_ids" widget="mail_thread" />
+          </div>
+        </form>
+      </field>
+    </record>
+    <record model="ir.actions.act_window" id="case_contact_action_window">
+      <field name="name">Case Contacts</field>
+      <field name="res_model">case.contact</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

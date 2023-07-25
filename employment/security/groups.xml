@@ -1,0 +1,35 @@
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="employment.module_employment">
+            <field name="name">Employment</field>
+            <field name="description">Employment</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="employment_ro" model="res.groups" forcecreate="1">
+            <field name="name">Read Only User</field>
+            <field name="category_id" ref="employment.module_employment" />
+            <field name="comment">The user has read-only permissions on Employment modules</field>
+        </record>
+
+        <record id="employment_lawyer" model="res.groups" forcecreate="1">
+            <field name="name">Lawyer User</field>
+            <field name="category_id" ref="employment.module_employment" />
+            <field name="comment">The user has Lawyer Access to Employment modules</field>
+            <field name="implied_ids" eval="[(4, ref('employment.employment_ro'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>  
+
+        <record id="employment_admin" model="res.groups" forcecreate="1">
+            <field name="name">Admin User</field>
+            <field name="category_id" ref="employment.module_employment" />
+            <field name="comment">The user has Admin Access to Employment modules</field>
+            <field name="implied_ids" eval="[(4, ref('employment.employment_ro')),(4, ref('employment.employment_lawyer'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>  
+        
+        <!-- <record id="employment.case_file" model="ir.ui.menu" >
+            <field name="groups_id" eval="[(6, 0, [ref('employment.employment_ro')])]"/>
+       </record> -->
+    </data>
+</odoo>

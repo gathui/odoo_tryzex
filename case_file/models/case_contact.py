@@ -8,20 +8,36 @@ _logger = logging.getLogger(__name__)
 class CaseFileContact(models.Model):
     _name = 'case.contact'
     _description = 'Case Contact'
+    _inherit = ['mail.thread','mail.activity.mixin']
     _check_company_auto = True
 
-    name=fields.Char(string="Name", default=lambda obj: obj.env['ir.sequence'].next_by_code('case.file.contact'))
-    contact_name = fields.Char(string="Contact Name")
-    case_file_id = fields.Many2one('case.file', string="Case File", check_company=True)
+    ref=fields.Char(string="Name", default=lambda obj: obj.env['ir.sequence'].next_by_code('case.contact'))
+    name = fields.Char(string="Contact Name")
+    case_file_id = fields.Many2one('case.file', string="Case File", check_company=True, domain="[('company_id', '=', company_id)]")
     company_id = fields.Many2one('res.company', string="Company",default=lambda self: self.env.company)
-    partner_id = fields.Many2one('res.partner', string="Partner ID", check_company=True, help="Related Record of contact stored in our database")
+    partner_id = fields.Many2one('res.partner', string="Related Partner", check_company=True, domain="[('company_id', '=', company_id)]", 
+                                 help="Related Record of contact stored in our database")
     phone_number = fields.Char(string='Phone')
-    email = fields.Char(string='Phone')
+    alt_phone_number = fields.Char(string='Alternate Phone')
+    email = fields.Char(string='Email')
     active = fields.Boolean(string="Active", default=True)
     contact_type = fields.Selection([
+        ('respondent','Respondent'),
+        ('opposing_counsel','Opposing Counsel'),
         ('police', 'Police'),
         ('court_clerk', 'Court Clerk'),
         ('magistrate', 'Magistrate'),
-        ('witness', 'Witness')
+        ('judge', 'Judge'),
+        ('witness', 'Witness'),
+        ('victim', 'Victim'),
+        ('other', 'Other'),
+
     ], string='Contact Type', help="Type of Contact", )
     description = fields.Char(string="Description")
+
+    # def name_get(self):
+    #     result = []   
+    #     for rec in self:
+    #         result.append((rec.id, '%s - %s' % (str(rec.name),str(rec.contact_name))))                
+                
+    #         return result

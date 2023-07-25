@@ -270,7 +270,7 @@ class MPesaBase(models.Model):
                         'active':True
                     }
                     print('SMSACK',sms)
-                    self.env['sanergy.bulk.sms'].sudo().create(sms)
+                    self.env['bulk.sms'].sudo().create(sms)
 
                 else:
                     print('No valid partner found')
@@ -288,7 +288,7 @@ class MPesaBase(models.Model):
                         'active':True
                     }
 
-                    self.env['sanergy.bulk.sms'].sudo().create(sms)
+                    self.env['bulk.sms'].sudo().create(sms)
                 _logger.warning('SMS Payment Acknowledgement' + str(sms))
             except Exception as e:
                 _logger.warning('Could not create the SMS Payment Acknowledgement' + str(e))

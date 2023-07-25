@@ -1,0 +1,7 @@
+<odoo>
+    <menuitem name="BulkSMS" id="bulk_sms" web_icon="bulk_sms,static/description/icon.png"/>
+    <menuitem name="SMS"  id="bulk_sms_one" action="bulk_sms_action_window" parent="bulk_sms" sequence="1"/>
+    <menuitem name="Settings"  id="bulk_sms_settings" action="bulk_sms_settings_action" parent="bulk_sms" sequence="2"/>
+</odoo>
+
+    

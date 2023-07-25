@@ -2,13 +2,75 @@
   <data>
     <!-- explicit list view definition -->
 
+    <record model="ir.ui.view" id="case_reference_list">
+      <field name="name">case_reference_list</field>
+      <field name="model">case.reference</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="company_id" />
+          <field name="name" />
+          <field name="court_id" />
+          <field name="institution" />
+          <field name="comments" />
+          <field name="active" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="case_reference_form" model="ir.ui.view">
+      <field name="name">case_reference_form</field>
+      <field name="model">case.reference</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <sheet>
+            <group>
+              <field name="name" required="1" />
+              <field name="court_id"
+                options="{'no_open': False,'no_create': True, 'no_create_edit':True}" />
+              <field name="institution" />
+              <field name="comments" />
+              <field name="active" />
+              <field name="company_id" readonly="1" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="case_outcome_list">
+      <field name="name">case_outcome_list</field>
+      <field name="model">case.outcome</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="company_id" />
+          <field name="name" />
+          <field name="active" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="case_outcome_form" model="ir.ui.view">
+      <field name="name">case_outcome_form</field>
+      <field name="model">case.outcome</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <sheet>
+            <group>
+              <field name="name" required="1" />
+              <field name="active" />
+              <field name="company_id" readonly="1" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
     <record model="ir.ui.view" id="case_file_category_list">
       <field name="name">case_file_category_list</field>
       <field name="model">case.file.category</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="company_id"
-            options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+          <field name="company_id" />
           <field name="name" />
           <field name="code" />
           <field name="active" />
@@ -16,29 +78,77 @@
       </field>
     </record>
 
+    <record id="case_file_category_form" model="ir.ui.view">
+      <field name="name">case_file_category_form</field>
+      <field name="model">case.file.category</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <sheet>
+            <group>
+              <field name="name" required="1" placeholder="Category Name" />
+              <field name="code" required="1" placeholder="Code" />
+              <field name="active" />
+              <field name="company_id" readonly="1" />
+            </group>
+            <notebook>
+              <page id="pg_subcategory" string="Sub Categories">
+                <field name="subcategory_ids" mode="tree" />
+              </page>
+              <page id="pg_doc_types" string="Document Types">
+                <field name="document_type_ids" mode="tree" />
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
     <record model="ir.ui.view" id="case_file_subcategory_list">
       <field name="name">case_file_subcategory_list</field>
       <field name="model">case.file.subcategory</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="company_id"
-            options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
-          <field name="name" />
-          <field name="category_id"
-            options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+          <field name="company_id" />
+          <field name="category_id" />
+          <field name="name" placeholder="Sub Category Name" />
           <field name="active" />
         </tree>
       </field>
     </record>
+
+    <record id="case_file_subcategory_form" model="ir.ui.view">
+      <field name="name">case_file_subcategory_form</field>
+      <field name="model">case.file.subcategory</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <sheet>
+            <group>
+              <field name="name" required="1" />
+              <field name="category_id" required="1" />
+              <field name="active" />
+              <field name="company_id" readonly="1" />
+            </group>
+            <notebook>
+              <page id="pg_doc_types" string="Document Types">
+                <field name="document_type_ids" mode="tree" />
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
     <record model="ir.ui.view" id="case_file_list">
       <field name="name">case_file_list</field>
       <field name="model">case.file</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="company_id" invisible="1" />
+          <field name="company_id" />
           <field name="name" />
-          <field name="claimant_id" domain="[('company_id', '=', company_id)]"/>
+          <field name="claimant_id" />
           <field name="respondent_ids" />
+          <field name="opposing_counsel_ids" />
           <field name="reference" />
           <field name="category_id" />
           <field name="subcategory_id" />
@@ -55,9 +165,60 @@
       <field name="arch" type="xml">
         <form duplicate="false">
           <header>
+            <button string="Create Invoice" name="action_create_invoice" type="object"
+              class="oe_highlight" />
+            <button string="Create Expense" name="action_create_expense" type="object"
+              class="oe_highlight" />
+            <button string="Close Case" name="action_close_case" type="object"
+              class="oe_highlight" confirm="Are you sure you want to Close this Case?" />
+            <button string="Cancel Case" name="action_cancel_case" type="object"
+              class="oe_highlight" confirm="Are you sure you want to Cancel this Case?" />
+            <button string="Reopen Case" name="action_reopen_case" type="object"
+              class="oe_highlight" confirm="Are you sure you want to Re-Open this Case?"
+              attrs="{ 'invisible':[('state','=','Open')]}" />
             <field name="state" widget="statusbar" />
           </header>
           <sheet>
+            <div class="oe_button_box" name="button_box">
+              <button class="oe_stat_button" type="object" name="compute_missing_documents"
+                icon="fa-file-text" attrs="{'invisible': [('missing_doc_types', '=', 0)]}">
+                <field string="Missing Documents" name="missing_doc_types" widget="statinfo"
+                  style="color:red"
+                  decoration-danger="missing_doc_types &gt; 0" />
+              </button>
+              <button class="oe_stat_button" type="object" name="action_do_nothing"
+                icon="fa-bell-slash-o" attrs="{'invisible': [('overdue_tasks', '=', 0)]}">
+                <field string="Overdue" name="overdue_tasks" widget="statinfo" style="color:red"
+                  decoration-danger="overdue_tasks &gt; 0" />
+              </button>
+              <button class="oe_stat_button" type="object" name="action_do_nothing"
+                icon="fa-calendar-check-o" attrs="{'invisible': [('tasks_today', '=', 0)]}">
+                <field string="Due Today" name="tasks_today" widget="statinfo" />
+              </button>
+              <button class="oe_stat_button" type="object" name="action_do_nothing"
+                icon="fa-credit-card">
+                <field string="Expenses" name="total_expenses" widget="statinfo" />
+              </button>
+              <button class="oe_stat_button" type="object" name="action_do_nothing"
+                icon="fa-money">
+                <field string="Invoices" name="total_invoices" widget="statinfo" />
+              </button>
+              <button class="oe_stat_button" type="object" name="action_do_nothing"
+                icon="fa-usd">
+                <field string="Balance" name="total_invoice_balance" widget="statinfo"
+                  decoration-danger="total_invoice_balance &gt; 0" />
+              </button>
+              <!-- </button> -->
+              <!--
+              <button name="action_collections" type="object" class="oe_stat_button" icon="fa-truck"
+              context="{'toilet_id': id}">
+                  <div class="o_stat_info">
+                      <field name="waste_count" class="o_stat_value"/>
+                      <span class="o_stat_text" attrs="{'invisible': [('waste_count', '&lt;', 2)]}"> Collections</span>
+                      <span class="o_stat_text" attrs="{'invisible': [('waste_count', '&gt;', 1)]}"> Collection</span>
+                  </div>
+              </button>-->
+            </div>
             <div class="oe_title">
               <h1>
                 <field name="name" readonly="1" />
@@ -67,70 +228,104 @@
               <group string="Parties">
                 <field name="claimant_id" domain="[('company_id', '=', company_id)]"
                   options="{'no_open': False,'no_create': True, 'no_create_edit':True}" />
-                <field name="respondent_ids" required="1" widget="many2many_tags" domain="[('company_id', '=', company_id)]"
-                  options="{'no_open': False,'no_create': True, 'no_create_edit':True}" />
+                <field name="case_type" required="1" />
+                <field name="category_id" required="1" placeholder="Category"
+                  domain="[('company_id', '=', company_id)]"
+                  options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+                <field name="subcategory_id" placeholder="Sub Category"
+                  domain="[('company_id', '=', company_id),('category_id','=',category_id)]"
+                  options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+                <field name="opposing_counsel_ids" widget="many2many_tags" />
+                <field name="respondent_ids" widget="many2many_tags" />                
               </group>
               <group string="Reference">
-                <field name="reference" required="1" />
-                <field name="case_number" required="1" />
-                <field name="tracking_number" required="1" />
-                <field name="citation_reference" required="1" />
+                <field name="reference" />
+                <field name="case_number" />
+                <field name="tracking_number" />
+                <field name="citation_reference" />
+                <field name="ob_number" />
               </group>
             </group>
-            <separator />
+            <!-- <separator /> -->
             <group>
-              <div id="case_file_dates" class="oe_row">
-                <b>
-                  <label for="start_date" string="Dates" />
-                </b>
+              <group string="Dates">
                 <field name="start_date" placeholder="Start Date" required="1" />
-                <field name="end_date" placeholder="End Date" />
-              </div>
+                <field name="end_date" placeholder="End Date"
+                  attrs="{ 'required':[('state','=','closed')]}" />
 
-              <group>
-                <div id="case_file_category" class="oe_row" colspan="2">
-                  <label for="category_id" string="Category" />
-                  <field name="category_id" required="1" placeholder="Category" domain="[('company_id', '=', company_id)]"
-                    options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
-                  <field name="subcategory_id" placeholder="Sub Category" domain="[('company_id', '=', company_id)]"
-                    options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
-                </div>
               </group>
+              <group string="Other">
+              <field name="billing_type" />
+                <field name="case_outcome_id" domain="[('company_id', '=', company_id)]"
+                  options="{'no_open': False,'no_create': True, 'no_create_edit':True}"
+                  attrs="{ 'required':[('state','=','closed')]}"
+                />
+              </group>
+
+            </group>
+            <group>
+
             </group>
             <group>
               <group>
-                <field name="case_commentary" colspan="3" widget="html" />
+                <field name="case_commentary" colspan="3" widget="html" placeholder="Provide brief details about the Case" />
               </group>
             </group>
+
             <notebook id="cf_notebook">
               <page id="pg_details" string="Details">
-                <field name="details" colspan="3" widget="html" />
+                <field name="details" colspan="3" widget="html" placeholder="Provide more details about the Case"/>
               </page>
               <page id="pg_case_contacts" string="Case Contacts">
                 <field name="case_contact_ids" domain="[('company_id', '=', company_id)]">
-                  <tree default_order="create_date desc">
+                  <tree>
+                    <field name="ref" />
                     <field name="name" />
-                    <field name="contact_name" />
                     <field name="contact_type" />
                     <field name="description" />
-                    <field name="partner_id" options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}"/>
+                    <field name="partner_id"
+                      options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
                     <field name="phone_number" />
                     <field name="email" />
                     <field name="description" optional="hide" />
                   </tree>
                 </field>
               </page>
+              <page id="pg_case_documents" string="Case Documents">
+                <field name="case_document_ids" domain="[('case_file_id', '=', id)]">
+                  <tree>
+                    <field name="ref" />
+                    <field name="document_type" />
+                    <field name="name" />
+                    <field name="case_file_id" />
+                    <field name="company_id" invisible="1" />
+                    <field name="attachment_id" />
+                  </tree>
+                </field>
+              </page>
+              <page id="pg_case_references" string="Case References">
+                <field name="case_reference_ids" mode="tree" default_order="name asc" />
+              </page>
+              <page id="pg_case_acts" string="Case Acts">
+                <field name="case_act_ids" mode="tree" default_order="name asc" />
+              </page>
+              <page id="pg_invoices" string="Invoices">
+                <field name="case_invoice_ids" mode="tree" default_order="name desc" />
+              </page>
+
+              <page id="pg_expenses" string="Expenses">
+                <field name="case_expense_ids" mode="tree" default_order="name desc" />
+              </page>
               <page id="pg_other_info" string="Other Info">
                 <group>
                   <group>
-                    <field name="company_id"
+                    <field name="company_id" readonly="1"
                       options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
                   </group>
                   <group>
 
                   </group>
                 </group>
-
               </page>
             </notebook>
           </sheet>
@@ -161,6 +356,21 @@
       <field name="view_mode">tree,kanban,form</field>
     </record>
 
+    <record id="case_mail_activity_view_form_popup" model="ir.ui.view">
+      <field name="name">case_mail_activity_view_form_popup</field>
+      <field name="model">mail.activity</field>
+      <field name="inherit_id" ref="mail.mail_activity_view_form_popup" />
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='date_deadline']" position="after">
+          <!-- <field name="start_time" widget="float_time"/> -->
+          <field name="starting_time" options='{"datepicker": {"daysOfWeekDisabled": [0, 6]}}' />
+          <field name="duration" />
+        </xpath>
+        <xpath expr="//field[@name='date_deadline']" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </xpath>
+      </field>
+    </record>
 
     <!-- server action to the one above -->
     <!--

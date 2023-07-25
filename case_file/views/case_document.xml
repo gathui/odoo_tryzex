@@ -1,0 +1,108 @@
+  <odoo>
+    <data>
+      <!-- explicit list view definition -->
+
+      <record model="ir.ui.view" id="case_document_type_list">
+        <field name="name">case_document_type_list</field>
+        <field name="model">case.document.type</field>
+        <field name="arch" type="xml">
+          <tree>
+            <field name="category_id" />
+            <field name="subcategory_id" />
+            <field name="name" />
+            <field name="active" />
+            <field name="required" />
+            <field name="sequence" />
+          </tree>
+        </field>
+      </record>
+
+      <record id="case_document_type_form" model="ir.ui.view">
+        <field name="name">case_document_type_form</field>
+        <field name="model">case.document.type</field>
+        <field name="arch" type="xml">
+          <form duplicate="false">
+            <header>
+              <!-- <field name="state" widget="statusbar" /> -->
+            </header>
+            <sheet>
+              <group>
+                <field name="name" />
+                <field name="category_id" domain="[('company_id', '=', company_id)]"
+                  options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+                <field name="subcategory_id"
+                  domain="[('company_id', '=', company_id),('category_id', '=', category_id)]"
+                  options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+                <field name="active" />
+                <field name="required" />
+                <field name="sequence" />
+                <field name="company_id" readonly="1" />
+              </group>
+            </sheet>
+          </form>
+        </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="case_document_type_action_window">
+        <field name="name">Case Document Types</field>
+        <field name="res_model">case.document.type</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+
+      <record model="ir.ui.view" id="case_document_list">
+        <field name="name">case_document_list</field>
+        <field name="model">case.document</field>
+        <field name="arch" type="xml">
+          <tree>
+            <field name="ref" />
+            <field name="case_file_id" widget="many2one" />
+            <field name="name" />
+            <field name="document_type_id" />
+            <field name="subcategory_id" />
+            <field name="attachment_id" widget="many2one" />
+            <field name="active" />
+          </tree>
+        </field>
+      </record>
+
+      <record id="case_document_form" model="ir.ui.view">
+        <field name="name">case_document_form</field>
+        <field name="model">case.document</field>
+        <field name="arch" type="xml">
+          <form duplicate="false">
+            <header>
+              <!-- <field name="state" widget="statusbar" /> -->
+            </header>
+            <sheet>
+              <div class="oe_title">
+                <h1>
+                  <field name="name" />
+                </h1>
+              </div>
+              <group>
+              <field name="case_file_id" />
+              <field name="company_id" />
+              <field name="document_type_id" 
+              domain="[('company_id', '=', company_id),('subcategory_id', '=', subcategory_id)]"
+              options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+              <field name="subcategory_id"/>
+              <field name="attachment_id" widget="Many2one"
+                context="{'default_res_model': 'case.file', 'default_res_id':case_file_id, 
+              'default_file_type': 'document'}"
+                options="{'no_open': False,'no_quick_create': True, 'no_create_edit':False}"
+                domain="[('res_model','=','case.file'),('res_id','=',case_file_id)]" />
+              <field name="description" />
+              <field name="company_id" />
+              </group>
+            </sheet>
+          </form>
+        </field>
+      </record>
+
+      <record model="ir.actions.act_window" id="case_document_action_window">
+        <field name="name">Case Documents</field>
+        <field name="res_model">case.document</field>
+        <field name="view_mode">tree,form</field>
+      </record>
+    </data>
+  </odoo>

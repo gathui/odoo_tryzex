@@ -1,0 +1,7 @@
+<odoo>
+    <menuitem name="Employment" id="menu_employment_root" web_icon="case_file,static/description/icon.png"/>
+    <menuitem name="Minimum Wage Calculator"  id="menu_minimum_wage_calculator" action="action_minimum_wage_calculator" parent="menu_employment_root" sequence="1"/>    
+    <menuitem name="Minimum Wage"  id="menu_minimum_wage" action="action_minimum_wage" parent="menu_employment_root" sequence="1"/>    
+    </odoo>
+
+    

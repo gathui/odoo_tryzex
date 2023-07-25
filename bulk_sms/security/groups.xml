@@ -1,0 +1,27 @@
+<odoo>
+    <data noupdate="0">
+        <record model="ir.module.category" id="bulk_sms.module_bulk_sms">
+            <field name="name">Bulk SMS</field>
+            <field name="description">Bulk SMS</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="bulk_sms_ro" model="res.groups" forcecreate="1">
+            <field name="name">Read Only User</field>
+            <field name="category_id" ref="bulk_sms.module_bulk_sms" />
+            <field name="comment">The user has read-only permissions on Bulk SMS modules</field>
+        </record>
+
+        <record id="bulk_sms_admin" model="res.groups" forcecreate="1">
+            <field name="name">Admin User</field>
+            <field name="category_id" ref="bulk_sms.module_bulk_sms" />
+            <field name="comment">The user has Admin Access to Bulk SMS modules</field>
+            <field name="implied_ids" eval="[(4, ref('bulk_sms.bulk_sms_ro'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>  
+        
+        <!-- <record id="bulk_sms.bulk_sms_menu" model="ir.ui.menu" >
+            <field name="groups_id" eval="[(6, 0, [ref('bulk_sms.bulk_sms_ro')])]"/>
+       </record> -->
+    </data>
+</odoo>

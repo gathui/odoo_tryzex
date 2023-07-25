@@ -23,10 +23,10 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/res_company.xml',
         'views/res_partner.xml',
-        'views/templates.xml',
+        'views/ke_county.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

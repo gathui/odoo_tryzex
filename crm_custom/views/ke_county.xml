@@ -1,0 +1,80 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="ke_county_list">
+      <field name="name">ke_county_list</field>
+      <field name="model">ke.county</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="code" />
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="ke_county_form" model="ir.ui.view">
+      <field name="name">ke_county_form</field>
+      <field name="model">ke.county</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <header>
+          </header>
+          <sheet>
+            <group string="Parties">
+              <field name="name" readonly="1" />
+              <field name="code" readonly="1" />
+            </group>
+
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="ke_county_action_window">
+      <field name="name">KE - Counties</field>
+      <field name="res_model">ke.county</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="ke_subcounty_list">
+      <field name="name">ke_subcounty_list</field>
+      <field name="model">ke.subcounty</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="code" />
+          <field name="name" />
+          <field name="county_id" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="ke_subcounty_form" model="ir.ui.view">
+      <field name="name">ke_subcounty_form</field>
+      <field name="model">ke.subcounty</field>
+      <field name="arch" type="xml">
+        <form duplicate="false">
+          <header>
+          </header>
+          <sheet>
+            <group string="Parties">
+              <field name="name" readonly="1" />
+              <field name="code" readonly="1" />
+            </group>
+
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="ke_subcounty_action_window">
+      <field name="name">KE - Sub-Counties</field>
+      <field name="res_model">ke.subcounty</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Kenya Counties" id="menu_ke_county_hierarchy" parent="crm.crm_menu_config" action="" sequence="1"/>
+    <menuitem name="Counties" id="menu_ke_county" parent="menu_ke_county_hierarchy" action="ke_county_action_window" sequence="1"/>
+    <menuitem name="Sub-Counties" id="menu_ke_subcounty" parent="menu_ke_county_hierarchy" action="ke_subcounty_action_window" sequence="2"/>
+  </data>
+</odoo>
