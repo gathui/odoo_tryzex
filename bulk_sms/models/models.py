@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 
 class BulkSms(models.Model):
     _name = 'bulk.sms'
-    _description = 'Bulk SMS'
+    _description = 'Bulk SMS Module'
     _order = "processed_time desc"
     _check_company_auto = True
 
