@@ -25,7 +25,8 @@ jobs:
         run: pwd
 
       - name: Deploy with rsync
-        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:odoo16/
+        run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./ ~/odoo16/
+        # run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:odoo16/
 
       - name: Restart Node Server
         uses: appleboy/ssh-action@master
@@ -35,8 +36,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /htmldocs/odoo16/
-            git fetch origin main
-            git reset --hard FETCH_HEAD
+            cd /htmldocs/odoo16/odoo_tryzex
+            git checkout main
+            git pull origin main
+            # git fetch origin main
+            # git reset --hard FETCH_HEAD
             git clean -d -f --exclude secrets
             chown $(whoami) . # PM2 doesn't recognize root user from Github Actions
