@@ -14,6 +14,7 @@ class ResPartnerInherit(models.Model):
 
 
     first_name = fields.Char(string="First Name")
+    middle_name = fields.Char(string="Middle Name")
     last_name = fields.Char(string="Last Name")
     physical_address = fields.Char(string="Last Name")
     gender = fields.Selection([

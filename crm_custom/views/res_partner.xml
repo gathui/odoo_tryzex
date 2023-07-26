@@ -19,6 +19,7 @@
             <label for="first_name" string="First/Last Name" />
             <field name="title" placeholder="Title" />
             <field name="first_name" placeholder="First Name" />
+            <field name="middle_name" placeholder="Middle Name" />
             <field name="last_name" placeholder="Last Name" />
           </div>
         </xpath>

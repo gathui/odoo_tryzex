@@ -205,7 +205,7 @@
               </button>
               <button class="oe_stat_button" type="object" name="action_do_nothing"
                 icon="fa-usd">
-                <field string="My New Balance" name="total_invoice_balance" widget="statinfo"
+                <field string="Balance" name="total_invoice_balance" widget="statinfo"
                   decoration-danger="total_invoice_balance &gt; 0" />
               </button>
               <!-- </button> -->

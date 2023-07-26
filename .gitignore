@@ -1,1 +1,10 @@
 *.pem
+**.vscode/
+**__pycache__/
+__pycache__
+*.py[co]
+*.egg-info
+**.zip
+**__pycache__/*
+*.pyc
+*.ipynb_checkpoints/*
