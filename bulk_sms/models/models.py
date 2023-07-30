@@ -46,9 +46,6 @@ class BulkSms(models.Model):
 
         #do not send SMS in Test Instance
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        if base_url not in ['http://odoo.saner.gy', 'https://odoo.saner.gy','https://saner-gy-sanergy.odoo.com','http://saner-gy-sanergy.odoo.com']:
-            _logger.warning('Sending Messages has been disabled in Test Instance ' + str(base_url))
-            return
 
         #fetch settings
         setting_id = self.env['bulk.sms.setting'].search([('company_id','=',self.company_id.id)])

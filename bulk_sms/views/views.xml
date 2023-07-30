@@ -1,6 +1,6 @@
 <odoo>
   <data>
-    <record id="sanergy_toilet_view_filter" model="ir.ui.view">
+    <record id="bulk_sms_view_filter" model="ir.ui.view">
       <field name="name">bulk.sms.search</field>
       <field name="model">bulk.sms</field>
       <field name="arch" type="xml">
@@ -23,7 +23,7 @@
       </field>
   </record>
     <record model="ir.ui.view" id="bulk_sms_list">
-      <field name="name">Sanergy Bulk SMS</field>
+      <field name="name">Bulk SMS</field>
       <field name="model">bulk.sms</field>
       <field name="arch" type="xml">
         <tree default_order='name desc' delete="false" edit="false">
@@ -45,7 +45,7 @@
       </field>
     </record>
     <record id="bulk_sms_view_form" model="ir.ui.view">
-      <field name="name">Sanergy Bulk SMS</field>
+      <field name="name">Bulk SMS</field>
       <field name="model">bulk.sms</field>
       <field name="arch" type="xml">
         <form string="Collections">
@@ -103,7 +103,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="bulk_sms_action_window">
-      <field name="name">Sanergy Bulk SMS</field>
+      <field name="name">Bulk SMS</field>
       <field name="res_model">bulk.sms</field>
       <field name="view_mode">tree,form</field>
     </record>

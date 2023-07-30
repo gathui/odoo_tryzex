@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Sanergy Utilities",
+    'name': "Odoo Marine Utilities",
 
     'summary': """
         Utility Modules""",
 
     'description': """
-        Long description of module's purpose
+        Utility Modules
     """,
 
     'author': "James Nguyo",
-    'website': "http://www.sanergy.com",
+    'website': "http://www.odoomarine.com",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml

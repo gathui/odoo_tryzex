@@ -36,10 +36,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /htmldocs/odoo16/odoo_tryzex
+            cd /odoo/odoo-server/odoo_tryzex
             git checkout main
             git pull origin main
             # git fetch origin main
             # git reset --hard FETCH_HEAD
             git clean -d -f --exclude secrets
-            chown $(whoami) . # PM2 doesn't recognize root user from Github Actions
+            # chown $(whoami) . # PM2 doesn't recognize root user from Github Actions
