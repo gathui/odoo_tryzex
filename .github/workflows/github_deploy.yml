@@ -28,7 +28,7 @@ jobs:
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./ ~/odoo16/
         # run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:odoo16/
 
-      - name: Restart Node Server
+      - name: Update GIT
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
