@@ -6,7 +6,7 @@
         Custom Modules for the CRM Modules""",
 
     'description': """
-        Long description of module's purpose
+        Custom Modules for the CRM Modules.
     """,
 
     'author': "Odoo Marine",
@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': [],
 
     # always loaded
     'data': [
