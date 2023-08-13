@@ -15,12 +15,12 @@
           <attribute name="invisible">1</attribute>
         </xpath>
         <xpath expr="//div[@class='oe_title mb24']" position="after">
-          <div id="partner_name" class="oe_row">
-            <label for="first_name" string="First/Last Name" />
-            <field name="title" placeholder="Title" />
-            <field name="first_name" placeholder="First Name" />
-            <field name="middle_name" placeholder="Middle Name" />
-            <field name="last_name" placeholder="Last Name" />
+          <div id="partner_name" class="oe_row" attrs="{ 'invisible':[('is_company','=',True)]}" >
+            <label for="first_name" string="First/Last Name" attrs="{ 'invisible':[('is_company','=',True)]}" />
+            <field name="title" placeholder="Title" attrs="{ 'invisible':[('is_company','=',True)]}" />
+            <field name="first_name" placeholder="First Name" attrs="{ 'invisible':[('is_company','=',True)]}" />
+            <field name="middle_name" placeholder="Middle Name" attrs="{ 'invisible':[('is_company','=',True)]}" />
+            <field name="last_name" placeholder="Last Name" attrs="{ 'invisible':[('is_company','=',True)]}" />
           </div>
         </xpath>
         <xpath expr="//page[@name='internal_notes']" position="before">

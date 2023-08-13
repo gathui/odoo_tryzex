@@ -111,7 +111,7 @@
         <tree>
           <field name="company_id" />
           <field name="category_id" />
-          <field name="name" placeholder="Sub Category Name" />
+          <field name="name"/>
           <field name="active" />
         </tree>
       </field>
@@ -124,8 +124,8 @@
         <form duplicate="false">
           <sheet>
             <group>
+              <field name="category_id" required="1" options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />              
               <field name="name" required="1" />
-              <field name="category_id" required="1" />
               <field name="active" />
               <field name="company_id" readonly="1" />
             </group>
@@ -354,6 +354,12 @@
       <field name="name">Case Files</field>
       <field name="res_model">case.file</field>
       <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="case_outcome_action_window">
+      <field name="name">Case Outcome</field>
+      <field name="res_model">case.outcome</field>
+      <field name="view_mode">tree,form</field>
     </record>
 
     <record id="case_mail_activity_view_form_popup" model="ir.ui.view">

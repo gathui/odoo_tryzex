@@ -20,6 +20,7 @@ class CaseFileContact(models.Model):
     phone_number = fields.Char(string='Phone')
     alt_phone_number = fields.Char(string='Alternate Phone')
     email = fields.Char(string='Email')
+    address = fields.Char(string='address')
     active = fields.Boolean(string="Active", default=True)
     contact_type = fields.Selection([
         ('respondent','Respondent'),

@@ -13,7 +13,8 @@
     <menuitem name="Settings"  id="menu_case_file_settings"  parent="menu_case_file_root" sequence="99"/>
     <menuitem name="Category"  id="menu_case_file_category" action="case_file_category_action_window" parent="menu_case_file_settings" sequence="1"/>
     <menuitem name="Sub Category"  id="menu_case_file_subcategory" action="case_file_subcategory_action_window" parent="menu_case_file_settings" sequence="2"/>
-    <menuitem name="Document Types"  id="menu_case_document_type" action="case_document_type_action_window" parent="menu_case_file_settings" sequence="3"/>
+    <menuitem name="Case Outcomes"  id="menu_case_outcomes" action="case_outcome_action_window" parent="menu_case_file_settings" sequence="3"/>
+    <menuitem name="Document Types"  id="menu_case_document_type" action="case_document_type_action_window" parent="menu_case_file_settings" sequence="4"/>
     
     <menuitem name="Courts"  id="menu_court_root" action="" parent="menu_case_file_settings" sequence="3"/>
     <menuitem name="Court Ranks"  id="menu_court_rank" action="court_rank_action_window" parent="menu_court_root" sequence="1"/>

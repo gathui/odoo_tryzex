@@ -80,8 +80,8 @@
                 </h1>
               </div>
               <group>
-              <field name="case_file_id" />
-              <field name="company_id" />
+              <field name="case_file_id" readonly="1"/>
+              <field name="company_id"  readonly="1"/>
               <field name="document_type_id" 
               domain="[('company_id', '=', company_id),('subcategory_id', '=', subcategory_id)]"
               options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
@@ -92,7 +92,6 @@
                 options="{'no_open': False,'no_quick_create': True, 'no_create_edit':False}"
                 domain="[('res_model','=','case.file'),('res_id','=',case_file_id)]" />
               <field name="description" />
-              <field name="company_id" />
               </group>
             </sheet>
           </form>

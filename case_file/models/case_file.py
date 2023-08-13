@@ -37,7 +37,7 @@ class CaseFileSubCategory(models.Model):
     _order = "name asc"
     _check_company_auto = True
 
-    name=fields.Char(string="Sub-Category Name", default=lambda obj: obj.env['ir.sequence'].next_by_code('case.file.subcategory'))
+    name=fields.Char(string="Sub-Category Name", )    
     category_id = fields.Many2one('case.file.category', string="Category")
     company_id = fields.Many2one('res.company', string="Company", required=True, default=lambda self: self.env.company)
     active = fields.Boolean(string="Active", default=True)
