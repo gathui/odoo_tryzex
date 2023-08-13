@@ -121,7 +121,7 @@ class CaseFile(models.Model):
         for rec in self:
             rec.respondent_ids = self.env['case.contact'].search([('company_id', '=', rec.company_id.id),('case_file_id','=',rec.id),('contact_type','=','respondent')])
             rec.opposing_counsel_ids = self.env['case.contact'].search([('company_id', '=', rec.company_id.id),('case_file_id','=',rec.id),('contact_type','=','opposing_counsel')])
-            print('_fetch_case_contacts', rec.company_id.id, rec.id, rec.respondent_ids,rec.opposing_counsel_ids)
+            # print('_fetch_case_contacts', rec.company_id.id, rec.id, rec.respondent_ids,rec.opposing_counsel_ids)
     
     def _compute_tasks(self):
         for rec in self:
@@ -191,6 +191,23 @@ class CaseFile(models.Model):
             'context': dict(self._context, 
                             default_move_type='out_invoice',
                             default_partner_id = self.claimant_id.id,
+                default_case_file_id = self.id,
+                default_invoice_date = date.today(),
+                default_payment_reference = self.name
+                )
+        }
+        return action
+    
+    def action_create_claimant(self):        
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': _('Create Expense'),
+            'res_model': 'hr.expense',
+            'view_mode': 'form',
+            'view_id': self.env.ref('hr_expense.hr_expense_view_form').id,
+            'nodestroy':True,
+            'target': 'new',
+            'context': dict(self._context, default_partner_id = self.claimant_id.id,
                 default_case_file_id = self.id,
                 default_invoice_date = date.today(),
                 default_payment_reference = self.name

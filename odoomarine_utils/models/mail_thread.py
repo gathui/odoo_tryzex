@@ -12,7 +12,7 @@ class MailThreadInherit(models.AbstractModel):
         for rec in self:
             if rec._name == 'case.file':
                 case_file_id = self.env['case.file'].search([('id','=',rec.id)])
-                if case_file_id :
+                if case_file_id and case_file_id.claimant_id and case_file_id.claimant_id.phone:
                     sms = {
                             "phone_number": case_file_id.claimant_id.phone,
                             "text_message": kwargs['body'],
@@ -24,6 +24,6 @@ class MailThreadInherit(models.AbstractModel):
                             'active':True
                         }
 
-                print("SENDMSG",rec, rec.id, rec._name,kwargs, kwargs['body'] , '\n', sms)             
-                self.env['bulk.sms'].sudo().create(sms)
+                    print("SENDMSG",rec, rec.id, rec._name,kwargs, kwargs['body'] , '\n', sms)             
+                    self.env['bulk.sms'].sudo().create(sms)
             return super(MailThreadInherit, rec.with_context(mail_post_autofollow=True)).message_post(**kwargs)
