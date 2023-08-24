@@ -24,6 +24,7 @@ class ResPartnerInherit(models.Model):
     date_of_birth = fields.Date(string="Date of Birth")
     age =fields.Integer (string="Age", compute="_compute_age")
     
+
     @api.model
     def _get_default_country(self):
         country = self.env['res.country'].search([('code', '=', 'KE')], limit=1)
@@ -71,3 +72,18 @@ class ResPartnerInherit(models.Model):
                 record.age = 0
     
     
+    def action_create_case_file(self):        
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': _('Create Case File'),
+            'res_model': 'case.file',
+            'view_mode': 'form',
+            'view_id': self.env.ref('case_file.case_file_form').id,
+            'nodestroy':True,
+            'target': 'new',
+            'context': dict(self._context, 
+                            default_claimant_id=self.id,
+                            default_state = 'Open',
+                )
+        }
+        return action

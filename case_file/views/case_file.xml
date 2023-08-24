@@ -111,7 +111,7 @@
         <tree>
           <field name="company_id" />
           <field name="category_id" />
-          <field name="name"/>
+          <field name="name" />
           <field name="active" />
         </tree>
       </field>
@@ -124,7 +124,8 @@
         <form duplicate="false">
           <sheet>
             <group>
-              <field name="category_id" required="1" options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />              
+              <field name="category_id" required="1"
+                options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
               <field name="name" required="1" />
               <field name="active" />
               <field name="company_id" readonly="1" />
@@ -139,11 +140,37 @@
       </field>
     </record>
 
+
+    <record id="case_file_view_filter" model="ir.ui.view">
+      <field name="name">case.file.filter</field>
+      <field name="model">case.file</field>
+      <field name="arch" type="xml">
+        <search string="Case Files">
+          <filter string="In Progress" name="in_progress" domain="[('state', 'in', ['Open'])]" />
+          <filter string="Closed" name="closed" domain="[('state', '=', 'Closed')]" />
+          <filter string="Canceled" name="canceled" domain="[('state', '=', 'Canceled')]" />
+          <separator />
+          <field name="claimant_id" widget="many2one" />
+          <field name="name"  />
+          <separator />
+          <filter name="start_date" date="start_date" />
+          <filter name="end_date" date="end_date" />
+          <group expand="0" string="Group By">
+            <filter name="category_id" string="Category" domain="[]" context="{'group_by': 'category_id'}" />
+            <filter name="subcategory_id" string="Sub Category" domain="[]" context="{'group_by': 'subcategory_id'}" />
+            <filter name="start_date" string="Start Date" domain="[]" context="{'group_by': 'start_date'}" />
+            <!-- <separator orientation="vertical" />
+            <filter string="Creation Date" context="{'group_by':'create_date:month'}" name="month" /> -->
+          </group>
+        </search>
+      </field>
+    </record>
+
     <record model="ir.ui.view" id="case_file_list">
       <field name="name">case_file_list</field>
       <field name="model">case.file</field>
       <field name="arch" type="xml">
-        <tree>
+        <tree default_order='start_date desc'>
           <field name="company_id" />
           <field name="name" />
           <field name="claimant_id" />
@@ -205,7 +232,8 @@
               </button>
               <button class="oe_stat_button" type="object" name="action_do_nothing"
                 icon="fa-usd">
-                <field string="Pending Customer Balances" name="total_invoice_balance" widget="statinfo"
+                <field string="Pending Customer Balances" name="total_invoice_balance"
+                  widget="statinfo"
                   decoration-danger="total_invoice_balance &gt; 0" />
               </button>
               <!-- </button> -->
@@ -236,7 +264,7 @@
                   domain="[('company_id', '=', company_id),('category_id','=',category_id)]"
                   options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
                 <field name="opposing_counsel_ids" widget="many2many_tags" />
-                <field name="respondent_ids" widget="many2many_tags" />                
+                <field name="respondent_ids" widget="many2many_tags" />
               </group>
               <group string="Reference">
                 <field name="reference" />
@@ -255,7 +283,7 @@
 
               </group>
               <group string="Other">
-              <field name="billing_type" />
+                <field name="billing_type" />
                 <field name="case_outcome_id" domain="[('company_id', '=', company_id)]"
                   options="{'no_open': False,'no_create': True, 'no_create_edit':True}"
                   attrs="{ 'required':[('state','=','closed')]}"
@@ -268,13 +296,15 @@
             </group>
             <group>
               <group>
-                <field name="case_commentary" colspan="3" widget="html" placeholder="Provide brief details about the Case" />
+                <field name="case_commentary" colspan="3" widget="html"
+                  placeholder="Provide brief details about the Case" />
               </group>
             </group>
 
             <notebook id="cf_notebook">
               <page id="pg_details" string="Details">
-                <field name="details" colspan="3" widget="html" placeholder="Provide more details about the Case"/>
+                <field name="details" colspan="3" widget="html"
+                  placeholder="Provide more details about the Case" />
               </page>
               <page id="pg_case_contacts" string="Case Contacts">
                 <field name="case_contact_ids" domain="[('company_id', '=', company_id)]">
@@ -353,6 +383,7 @@
     <record model="ir.actions.act_window" id="case_file_action_window">
       <field name="name">Case Files</field>
       <field name="res_model">case.file</field>
+      <field name="context">{'search_default_category_id': 1, 'search_default_subcategory_id':1,'search_default_start_date':1,'default_state': 'Open'}</field>
       <field name="view_mode">tree,kanban,form</field>
     </record>
 

@@ -36,6 +36,17 @@ class CaseFileContact(models.Model):
     ], string='Contact Type', help="Type of Contact", )
     description = fields.Char(string="Description")
 
+
+    @api.onchange('partner_id')
+    @api.depends('partner_id')
+    def _onchange_partner_id(self):
+        for rec in self:
+            if rec.partner_id:
+                rec.name = rec.partner_id.name
+                rec.phone_number = rec.partner_id.phone
+                rec.alt_phone_number = rec.partner_id.mobile
+                rec.email = rec.partner_id.email
+
     # def name_get(self):
     #     result = []   
     #     for rec in self:

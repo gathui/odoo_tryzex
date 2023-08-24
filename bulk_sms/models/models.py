@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 import requests
-from datetime import date, datetime
+from datetime import date, datetime,timedelta
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -94,54 +94,62 @@ class BulkSms(models.Model):
             _logger.warning('AT Headers \n' +str(africastalking_base_url)+'\n' + str(result))
             for rec in result:
                 try:
-
-                    headers = {'Content-Type': 'application/x-www-form-urlencoded', 
-                    'Accept': 'application/json',
-                    'apiKey': africastalking_apiKey} 
-                    body= {
-                        'username': africastalking_username,
-                        'from': africastalking_sms_header,
-                        'to': rec.phone_number,
-                        'message': rec.text_message
-                    }
-
-                    my_response = requests.post(url=africastalking_base_url, data=body, headers=headers)
-                    sent_sms_response=my_response.json()
-                    _logger.warning('SMS sent_sms_response' +str (sent_sms_response))
-                    if sent_sms_response:
-                        africastalking_response = sent_sms_response['SMSMessageData']['Recipients'][0]
-                        message_id = africastalking_response['messageId']
-                        sms_cost = africastalking_response['cost']
-                        status_code = africastalking_response['statusCode']
-                        status_code_description = "Unknown Status Code"
-
-                        for sms_code in sms_status_codes:
-                            if sms_code == status_code:
-                                status_code_description = sms_status_codes[sms_code]
-
-                        rec.write({
-                            'processed': True,
-                            'message_id': message_id,
-                            'status_code': status_code,
-                            'cost': sms_cost,
-                            'processed_time': datetime.now(),
-                            'status_code_description': status_code_description
-                        })
-                    else:
-                        if rec.max_retries + 1 >= 5:
-                            status_msg = 'Maximum retries reached'
-                            _processed = True
-                        else:
-                            status_msg = 'Could not send SMS'
-                            _processed = False
-                            
+                    if rec.scheduled_send_date < datetime.now()+ timedelta(hours=24):
                         rec.write({
                             'status_code': '999',
-                            'processed':_processed,
+                            'processed':True,
                             'processed_time': datetime.now(),
-                            'status_code_description': status_msg,
-                            'max_retries' : rec.max_retries + 1
+                            'status_code_description': "ARCHIVED",
+                            'max_retries' : 5
                         })
+                    else:
+                        headers = {'Content-Type': 'application/x-www-form-urlencoded', 
+                        'Accept': 'application/json',
+                        'apiKey': africastalking_apiKey} 
+                        body= {
+                            'username': africastalking_username,
+                            'from': africastalking_sms_header,
+                            'to': rec.phone_number,
+                            'message': rec.text_message
+                        }
+
+                        my_response = requests.post(url=africastalking_base_url, data=body, headers=headers)
+                        sent_sms_response=my_response.json()
+                        _logger.warning('SMS sent_sms_response' +str (sent_sms_response))
+                        if sent_sms_response:
+                            africastalking_response = sent_sms_response['SMSMessageData']['Recipients'][0]
+                            message_id = africastalking_response['messageId']
+                            sms_cost = africastalking_response['cost']
+                            status_code = africastalking_response['statusCode']
+                            status_code_description = "Unknown Status Code"
+
+                            for sms_code in sms_status_codes:
+                                if sms_code == status_code:
+                                    status_code_description = sms_status_codes[sms_code]
+
+                            rec.write({
+                                'processed': True,
+                                'message_id': message_id,
+                                'status_code': status_code,
+                                'cost': sms_cost,
+                                'processed_time': datetime.now(),
+                                'status_code_description': status_code_description
+                            })
+                        else:
+                            if rec.max_retries + 1 >= 5:
+                                status_msg = 'Maximum retries reached'
+                                _processed = True
+                            else:
+                                status_msg = 'Could not send SMS'
+                                _processed = False
+                                
+                            rec.write({
+                                'status_code': '999',
+                                'processed':_processed,
+                                'processed_time': datetime.now(),
+                                'status_code_description': status_msg,
+                                'max_retries' : rec.max_retries + 1
+                            })
                 except Exception as e:
                     _logger.warning (f'sorry, we have a problem: {e}')
                     
