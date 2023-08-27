@@ -156,9 +156,9 @@
           <filter name="start_date" date="start_date" />
           <filter name="end_date" date="end_date" />
           <group expand="0" string="Group By">
-            <filter name="category_id" string="Category" domain="[]" context="{'group_by': 'category_id'}" />
-            <filter name="subcategory_id" string="Sub Category" domain="[]" context="{'group_by': 'subcategory_id'}" />
-            <filter name="start_date" string="Start Date" domain="[]" context="{'group_by': 'start_date'}" />
+            <filter name="grp_category_id" string="Category" domain="[]" context="{'group_by': 'category_id'}" />
+            <filter name="grp_subcategory_id" string="Sub Category" domain="[]" context="{'group_by': 'subcategory_id'}" />
+            <filter name="grp_start_date" string="Start Date" domain="[]" context="{'group_by': 'start_date'}" />
             <!-- <separator orientation="vertical" />
             <filter string="Creation Date" context="{'group_by':'create_date:month'}" name="month" /> -->
           </group>
@@ -223,18 +223,26 @@
                 <field string="Due Today" name="tasks_today" widget="statinfo" />
               </button>
               <button class="oe_stat_button" type="object" name="action_do_nothing"
-                icon="fa-credit-card">
-                <field string="Expenses" name="total_expenses" widget="statinfo" />
-              </button>
-              <button class="oe_stat_button" type="object" name="action_do_nothing"
                 icon="fa-money">
                 <field string="Invoices" name="total_invoices" widget="statinfo" />
               </button>
               <button class="oe_stat_button" type="object" name="action_do_nothing"
+                icon="fa-credit-card">
+                <field string="Expenses" name="total_expenses" widget="statinfo" />
+              </button>
+              <button class="oe_stat_button" type="object" name="action_do_nothing"
                 icon="fa-usd">
-                <field string="Pending Customer Balances" name="total_invoice_balance"
+                <field string="Balance" name="total_invoice_balance"
                   widget="statinfo"
                   decoration-danger="total_invoice_balance &gt; 0" />
+              </button>
+              <button class="oe_stat_button" type="object" name="action_do_nothing" string=""
+                icon="fa-usd">
+                <field string="Income" name="total_income"
+                  widget="statinfo"
+                  decoration-danger="total_invoice_balance &lt; 0" 
+                  decoration-warning="total_invoice_balance == 0" 
+                  decoration-success="total_invoice_balance &gt; 0" />
               </button>
               <!-- </button> -->
               <!--
@@ -383,7 +391,7 @@
     <record model="ir.actions.act_window" id="case_file_action_window">
       <field name="name">Case Files</field>
       <field name="res_model">case.file</field>
-      <field name="context">{'search_default_category_id': 1, 'search_default_subcategory_id':1,'search_default_start_date':1,'default_state': 'Open'}</field>
+      <field name="context">{'search_default_grp_category_id': 1, 'search_default_grp_subcategory_id':1,'search_default_grp_start_date':1,'search_default_in_progress': 1}</field>
       <field name="view_mode">tree,kanban,form</field>
     </record>
 

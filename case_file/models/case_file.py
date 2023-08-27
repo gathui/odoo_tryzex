@@ -103,6 +103,7 @@ class CaseFile(models.Model):
     total_expenses = fields.Monetary(string="Total Expenses", currency_field = 'currency_id', compute="_compute_expenses",help="Total Expenses Amount")
     total_invoices = fields.Monetary(string="Total Invoices", currency_field = 'currency_id', compute="_compute_invoices",help="Total Invoiced Amount")
     total_invoice_balance = fields.Monetary(string="Invoice Balance", currency_field = 'currency_id',help="Total Invoiced Amount Owed")
+    total_income = fields.Monetary(string="Total Income", currency_field = 'currency_id',help="Total Income Realised from this Case File", compute="_compute_income")
     currency_id = fields.Many2one('res.currency', 'Currency', default=lambda self: self.env.company.currency_id.id)
     overdue_tasks = fields.Integer(string="Overdue Tasks", compute="_compute_tasks")
     tasks_today = fields.Integer(string="Today's Tasks", compute="_compute_tasks")
@@ -110,8 +111,10 @@ class CaseFile(models.Model):
     billing_type = fields.Selection([
         ('fixed', 'Fixed Fee'),
         ('per_hour', 'Per Hour'),
+        ('expenses_only', 'Expenses Only'),
         ('probono', 'Pro Bono')
     ], string='Billing Type',  help="Billing Method", group_expand='_expand_states',tracking=True)
+
     missing_doc_types = fields.Integer(string="Missing Docs", compute="_compute_missing_documents")
 
     def _expand_states(self, states, domain, order):
@@ -251,6 +254,12 @@ class CaseFile(models.Model):
             
             rec.total_invoices = total_amount
             rec.total_invoice_balance = total_balance
+
+
+    @api.depends('total_invoices','total_expenses')
+    def _compute_income(self):
+        for rec in self:
+            rec.total_income = rec.total_invoices - rec.total_expenses
 
     
     def action_do_nothing(self):
