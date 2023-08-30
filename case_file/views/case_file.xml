@@ -236,24 +236,7 @@
                   widget="statinfo"
                   decoration-danger="total_invoice_balance &gt; 0" />
               </button>
-              <!-- <button class="oe_stat_button" type="object" name="action_do_nothing" string=""
-                icon="fa-usd">
-                <field string="Income" name="total_income"
-                  widget="statinfo"
-                  decoration-danger="total_income &lt; 0" 
-                  decoration-warning="total_income == 0" 
-                  decoration-success="total_income &gt; 0" />
-              </button> -->
-              <!-- </button> -->
-              <!--
-              <button name="action_collections" type="object" class="oe_stat_button" icon="fa-truck"
-              context="{'toilet_id': id}">
-                  <div class="o_stat_info">
-                      <field name="waste_count" class="o_stat_value"/>
-                      <span class="o_stat_text" attrs="{'invisible': [('waste_count', '&lt;', 2)]}"> Collections</span>
-                      <span class="o_stat_text" attrs="{'invisible': [('waste_count', '&gt;', 1)]}"> Collection</span>
-                  </div>
-              </button>-->
+              
             </div>
             <div class="oe_title">
               <h1>
