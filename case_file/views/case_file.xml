@@ -236,14 +236,14 @@
                   widget="statinfo"
                   decoration-danger="total_invoice_balance &gt; 0" />
               </button>
-              <button class="oe_stat_button" type="object" name="action_do_nothing" string=""
+              <!-- <button class="oe_stat_button" type="object" name="action_do_nothing" string=""
                 icon="fa-usd">
                 <field string="Income" name="total_income"
                   widget="statinfo"
-                  decoration-danger="total_invoice_balance &lt; 0" 
-                  decoration-warning="total_invoice_balance == 0" 
-                  decoration-success="total_invoice_balance &gt; 0" />
-              </button>
+                  decoration-danger="total_income &lt; 0" 
+                  decoration-warning="total_income == 0" 
+                  decoration-success="total_income &gt; 0" />
+              </button> -->
               <!-- </button> -->
               <!--
               <button name="action_collections" type="object" class="oe_stat_button" icon="fa-truck"

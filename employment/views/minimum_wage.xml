@@ -67,14 +67,24 @@
         <form >
           <header>
             <button string="Compute Wages" name="compute_monthly_wages" type="object"
+             attrs="{'invisible': ['|',('region', '=', False),('job_type', '=', False)]}"
               class="oe_highlight" />
             <button string="Excel" name="export_to_excel" type="object"
+            attrs="{'invisible': ['|',('region', '=', False),('job_type', '=', False)]}"
               class="oe_highlight" />
           </header>
           <sheet>
             <group>
+              <group>
               <field name="region" required="1"/>
               <field name="job_type" required="1"/>
+
+              </group>
+              <group>
+                
+              <field name="leave_allowance" required="1"/>
+              <field name="housing_allowance" required="1"/>
+              </group>
             </group>
             <notebook>
               <page id="pg_emp_history" string="01: Employment History">
@@ -94,24 +104,28 @@
               <page id="pg_monthly_wages" string="02: Monthly Wages">
                 <field name="monthly_salary_ids" mode="tree" >
                   <tree multi_edit="1" editable="top">
-                    <field name="name" />
-                    <field name="min_wage_calc_id" optional="hide"/>
-                    <field name="start_date" />
-                    <field name="end_date" />
-                    <field name="monthly_salary" />
-                    <field name="minimum_wage" />
-                    <field name="wage_variance" />
-                    <field name="effective_wage_order_id" optional="hide"/>
+                    <field name="name" optional="hide" readonly="1"/>
+                    <field name="min_wage_calc_id" optional="hide" />
+                    <field name="start_date" readonly="1"/>
+                    <field name="end_date" readonly="1"/>
+                    
+                    <field name="days_worked" readonly="1"/>
+                    <field name="monthly_salary" readonly="1"/>
+                    <field name="minimum_wage" readonly="1"/>
+                    <field name="minimum_wage_incl_housing" readonly="1"/>
+                    <field name="leave_days_accrued" readonly="1" string ="Leave Accrued"/>
+                    <field name="leave_days_used" string="Leave Used"/>
+                    <field name="leave_days_balance" string="Balance"/>
+                    <field name="wage_variance" readonly="1"/>
+                    <field name="effective_wage_order_id" optional="hide" readonly="1"/>
                   </tree>
                 </field>
               </page>
+              <page string="03: Summary">
+                <field name="summary_string" widget="html" readonly="0"/>
+              </page>
             </notebook>
           </sheet>
-          <div class="oe_chatter">
-                        <field name="message_follower_ids" />
-                        <field name="activity_ids" />
-                        <field name="message_ids" options="{'post_refresh': 'recipients'}" />
-                    </div>
         </form>
       </field>
     </record>

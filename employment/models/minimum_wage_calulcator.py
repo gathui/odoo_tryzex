@@ -8,6 +8,8 @@ import io
 import xlwt
 import base64
 import xlsxwriter
+from operator import itemgetter
+from itertools import groupby
 
 class EmploymentHistory(models.TransientModel):
     _name = 'employment.history'
@@ -24,6 +26,7 @@ class EmploymentHistory(models.TransientModel):
     job_grade_id = fields.Many2one('minimum.wage',string = "Job Grade")
     monthly_salary = fields.Float(string="Monthly Salary")
 
+
     @api.onchange('occupation_name')
     def onchange_occupation_name(self):
         for rec in self:
@@ -38,17 +41,33 @@ class MonthlySalary(models.TransientModel):
     min_wage_calc_id = fields.Many2one('minimum.wage.calculator', string="Calculator ID")
     start_date = fields.Date("Start Date")
     end_date = fields.Date("End Date")
+    days_worked = fields.Integer("Days Worked", help="Number of Days Worked in Month")
     occupation_name = fields.Char(string = "Occupation", related="effective_wage_order_id.job_type")
     effective_wage_order_id = fields.Many2one('minimum.wage',string = "Effective Wage Order")
     monthly_salary = fields.Float(string="Monthly Salary")
     minimum_wage = fields.Float(string="Minimum Wage")
+    minimum_wage_incl_housing = fields.Float(string="Minimum Wage (incl Housing Allowance)")
     wage_variance = fields.Float(string="Wage Variance")
+    leave_days_accrued = fields.Float(string="Leave Days Accrued")
+    leave_days_used = fields.Float(string="Leave Days Used", default=0)
+    leave_days_balance = fields.Float(string="Leave Days Balance", compute="_compute_leave_balance")
+    month_worked_ratio = fields.Float(string="Month Worked(Ratio)", help="Percentage of Month Worked")
 
+
+    def _compute_leave_balance(self):
+        for rec in self:
+            rec.leave_days_balance = rec.leave_days_accrued - rec.leave_days_used
+
+    # @api.onchange('leave_days_used')
+    # def _onchange_leave_days_used(self):
+    #     for rec in self:
+    #         print('NIKOHAPA')
+    #         rec.min_wage_calc_id._compute_monthly_wages()
 
 class MinimumWage(models.TransientModel):
     _name = 'minimum.wage.calculator'
     _description = 'Minimum Wage Calculator'
-    _inherit = ['mail.thread','mail.activity.mixin']
+    
 
     name =fields.Char(string="Name", default=lambda obj: obj.env['ir.sequence'].next_by_code('minimum.wage.calculator'))
     region  = fields.Selection([
@@ -56,6 +75,8 @@ class MinimumWage(models.TransientModel):
         ('cat_2', 'Municipalities, Town Councils of Mavoko, Riuru, Limuru'),
         ('cat_3', 'All other areas (neither cities nor municipalities nor town councils)'),
     ], string='Region', help="Region")
+    leave_allowance = fields.Float(string="Annual Leave Allowance(Days)", default=21)
+    housing_allowance = fields.Float(string="Housing Allowance(%)", default=15)
     job_type = fields.Selection(selection=lambda self: self.env['minimum.wage'].get_jobtype_selection(),string="Occupation/Job Type/Grade")
     employment_history_ids = fields.One2many('employment.history', 'min_wage_calc_id', string="Employment History")
     monthly_salary_ids = fields.One2many('monthly.salary', 'min_wage_calc_id', string="Monthly Salary")
@@ -64,13 +85,22 @@ class MinimumWage(models.TransientModel):
     end_date= fields.Date(string="End Date", help="Date the Minimum Wage Order came into Effect")
     # job_type = fields.Char(string="Job Type/Grade")
     sequence = fields.Integer(string="Job Type Sequence")
+    summary_string = fields.Text(string="Summary")
 
         
     @api.onchange('job_type')
     def _onchange_jobgrade(self):
         print('job_type', self.job_type)
 
+    @api.onchange('monthly_salary_ids')
+    def _onchange_leave_days_used(self):
+        self._compute_monthly_wages_summary()
+
     def compute_monthly_wages(self):
+        self._compute_monthly_wages()
+        self._compute_monthly_wages_summary()
+
+    def _compute_monthly_wages(self):
         for rec in self:
             rec.monthly_salary_ids.unlink()
             for hist in rec.employment_history_ids:
@@ -81,30 +111,74 @@ class MinimumWage(models.TransientModel):
                                                                       ])
                 print('min_wage_order_ids', hist, '\n',min_wage_order_ids,'\n', hist.start_date,hist.end_date,hist.occupation_name,hist.job_grade_id.job_type)
                 monthly_emp = []
+                region_category = (_("%s_per_month")%(self.region))
                 for dt in rrule.rrule(rrule.MONTHLY, dtstart=hist.start_date, until=hist.end_date):
                     mth_start_date = dt.date().replace(day=1)
                     mth_start_date = mth_start_date if mth_start_date > hist.start_date else hist.start_date
                     mth_end_date =  dt.date() + relativedelta(day=32)
                     mth_end_date = mth_end_date if mth_end_date < hist.end_date else hist.end_date
+
+                    days_worked_in_month = mth_end_date - mth_start_date
+                    month_worked_ratio = ((days_worked_in_month.days + 1) / calendar.monthrange(mth_start_date.year, mth_start_date.month)[1])
                     
                     effective_wage_order = min_wage_order_ids.filtered(lambda line: line.effective_date <= dt.date()
                                                                        and line.end_date >= mth_end_date )
-                    print('effective_wage_order',effective_wage_order)
-                    region_category = (_("%s_per_month")%(self.region))
+                    print('effective_wage_order',effective_wage_order, self.housing_allowance, month_worked_ratio)
+                    # region_category = (_("%s_per_month")%(self.region))
+                    housing_allowance = (1 + (self.housing_allowance/100)) if self.housing_allowance > 0 else 0
                     vals = {
                             "min_wage_calc_id" : rec.id,
                             "start_date" : mth_start_date,
                             "end_date" : mth_end_date,
+                            "days_worked" : days_worked_in_month.days + 1,
                             # "job_grade_id" : hist.job_grade_id.id,
                             "effective_wage_order_id" : effective_wage_order[0]['id'] if len(effective_wage_order) > 0 else None,
                             "monthly_salary" : hist.monthly_salary,
-                            "minimum_wage" : effective_wage_order[0][region_category] if len(effective_wage_order) > 0 else None,
-                            "wage_variance" : effective_wage_order[0][region_category] - hist.monthly_salary if len(effective_wage_order) > 0 else None,
+                            "minimum_wage" : effective_wage_order[0][region_category] if len(effective_wage_order) > 0 else None,                            
+                            "minimum_wage_incl_housing" : effective_wage_order[0][region_category]*housing_allowance if len(effective_wage_order) > 0 else None,
+                            "month_worked_ratio" : month_worked_ratio,
+                            "leave_days_accrued" : month_worked_ratio * (self.leave_allowance/12),
+                            "wage_variance" : effective_wage_order[0][region_category]*housing_allowance - hist.monthly_salary if len(effective_wage_order) > 0 else None,
                         }
                     
                     monthly_emp.append(vals)
                     print('\n',vals)
                 self.env['monthly.salary'].create(monthly_emp)
+                
+            
+    def _compute_monthly_wages_summary(self):      
+        housing_allowance = (1 + (self.housing_allowance/100)) if self.housing_allowance > 0 else 0  
+        str_msg = ""
+        total_amount_owed = 0.0
+        for key, value in groupby(self.monthly_salary_ids,key = itemgetter('effective_wage_order_id')):                        
+            effective_wage_order = key
+            recs = list(value)
+            region_category = (_("%s_per_month")%(self.region))
+
+            leave_days_accrued = sum(item['leave_days_accrued'] or 0 for item in recs)
+            leave_days_used = sum(item['leave_days_used'] or 0 for item in recs)
+            leave_balance = leave_days_accrued - leave_days_used
+            # leave_balance_amount = effective_wage_order.
+            wage_variance = sum(item['wage_variance'] or 0 for item in recs)
+            leave_balance_amount =  (leave_balance/self.leave_allowance) * ((effective_wage_order[region_category] or 0) * housing_allowance)
+            total_amount_owed = total_amount_owed + wage_variance + leave_balance_amount
+
+            str_leave_balance = (_("<td><b>Leave Balance: </b></td><td>&nbsp;<td/><td> %s - %s = %s </td>")% ("{0:,.2f}".format(leave_days_accrued),  "{0:,.2f}".format(leave_days_used),  "{0:,.2f}".format(leave_balance)) )              
+            str_leave_variance = (_("<td><b>Leave Variance:</b> </td><td>&nbsp;<td/><td>(%s/%s)  * KES %s = KES %s </td>") %( "{0:,.2f}".format(leave_balance), self.leave_allowance, "{0:,.2f}".format(effective_wage_order[region_category] or 0), "{0:,.2f}".format(leave_balance_amount)))
+            str_wage_variance = (_("<td><b>Wage Variance:</b></td><td>&nbsp;<td/><td>KES %s</td>")% ("{0:,.2f}".format(wage_variance)))
+            str_total_variance = (_("<td><b>Total Variance (Wages + Leave): </b></td><td>&nbsp;<td/><td> KES %s</td>") %( "{0:,.2f}".format(wage_variance + leave_balance_amount)))
+
+            str_msg = _("%s<table>\
+                        <tr><td><b>Year:</td><td>&nbsp;<td/><td> <b>%s </b></td>\
+                        <tr>%s</tr>\
+                        <tr>%s</tr>\
+                        <tr>%s</tr>\
+                        <tr>%s</tr>\
+                        </table><p/></p><p/></p>")\
+            %(str_msg, key.year, str_leave_balance,str_leave_variance, str_wage_variance, str_total_variance)
+        
+        self.summary_string=_("%s<p/><p/><h3>Total Amount Owed: KES %s</h3>") % (str_msg, f"{total_amount_owed:,.2f}")
+
 
     def export_to_excel(self):
         file_name = 'Minimum Wage Calculation -' + str(date.today().strftime("%Y%m%d%H%M%S"))
