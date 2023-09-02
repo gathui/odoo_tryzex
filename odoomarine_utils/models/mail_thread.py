@@ -17,7 +17,7 @@ class MailThreadInherit(models.AbstractModel):
                             "phone_number": case_file_id.claimant_id.phone,
                             "text_message": kwargs['body'],
                             "retry_duration": 1,
-                            "scheduled_send_date": datetime.now()+ timedelta(minutes=15),
+                            "scheduled_send_date": datetime.now(),
                             'company_id':case_file_id.company_id.id,
                             'related_record': (_("%s,%s")%(rec._name,rec.id)),
                             'sms_tag':'CASEFILESMS',

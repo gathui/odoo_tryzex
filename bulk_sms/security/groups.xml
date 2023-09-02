@@ -17,7 +17,7 @@
             <field name="category_id" ref="bulk_sms.module_bulk_sms" />
             <field name="comment">The user has Admin Access to Bulk SMS modules</field>
             <field name="implied_ids" eval="[(4, ref('bulk_sms.bulk_sms_ro'))]"/>
-            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin')), (4, ref('base.group_system'))]"/>
         </record>  
         
         <!-- <record id="bulk_sms.bulk_sms_menu" model="ir.ui.menu" >

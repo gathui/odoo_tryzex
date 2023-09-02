@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_bulk_sms,access_bulk_sms,model_bulk_sms,bulk_sms.bulk_sms_ro,1,0,0,0
-access_bulk_sms,access_bulk_sms,model_bulk_sms,bulk_sms.bulk_sms_admin,1,1,1,0
+access_bulk_sms_ro,access_bulk_sms_ro,model_bulk_sms,bulk_sms.bulk_sms_ro,1,0,0,0
+access_bulk_sms_admin,access_bulk_sms_admin,model_bulk_sms,bulk_sms.bulk_sms_admin,1,1,1,0
+access_bulk_sms_setting_admin,access_bulk_sms_setting_admin,model_bulk_sms_settings,bulk_sms.bulk_sms_admin,1,1,1,0
