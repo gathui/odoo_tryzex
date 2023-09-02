@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record model="ir.ui.view" id="bulk_sms_settings_list">
+        <field name="name">Bulk SMS Settings</field>
+        <field name="model">bulk.sms.settings</field>
+        <field name="arch" type="xml">
+            <tree default_order='name desc' delete="false" edit="false">
+                <field name="company_id" />
+                <field name="bulk_sms_provider" />
+                <field name="sms_api_base_url" />
+                <field name="active" widget="badge" />
+            </tree>
+        </field>
+    </record>
 
     <record id="bulk_sms_settings_view_form" model="ir.ui.view">
         <field name="name">Bulk SMS Settings</field>
@@ -7,13 +19,34 @@
         <field name="priority" eval="5" />
         <field name="arch" type="xml">
             <form>
-                <group>
-                    <field name="africastalking_username" string="User Name" />
-                    <field name="africastalking_base_url" />
-                    <field name="africastalking_apiKey" />
-                    <field name="africastalking_sms_header" />
-                    <field name="sms_batch_size" />
-                </group>
+                <sheet>
+                    <field name="active" invisible="1" />
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                        attrs="{'invisible': [('active', '=', True)]}" />
+                    <widget name="web_ribbon" title="Active" bg_color="bg-success"
+                        attrs="{'invisible': [('active', '=', False)]}" />
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+                    <group string="General Bulk SMS Provider Settings">
+                        <field name="company_id" />
+                        <field name="bulk_sms_provider" />
+                        <field name="sms_api_base_url" />
+                        <field name="sms_api_settings"  />
+                        <field name="sms_status_codes"  />
+                    </group>
+                    <separator />
+                    <group string="Africas Talking Settings">
+                        <field name="africastalking_username" string="User Name" />
+                        <field name="africastalking_base_url" />
+                        <field name="africastalking_apiKey" />
+                        <field name="africastalking_sms_header" />
+                        <field name="sms_batch_size" />
+                    </group>
+                </sheet>
             </form>
 
         </field>
@@ -23,7 +56,7 @@
         <!-- <field name="name">Bulk SMS Settings</field> -->
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">bulk.sms.settings</field>
-        <field name="view_mode">form</field>
+        <field name="view_mode">tree,form</field>
         <field name="target">current</field>
     </record>
 </odoo>

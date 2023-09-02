@@ -235,8 +235,7 @@
                 <field string="Balance" name="total_invoice_balance"
                   widget="statinfo"
                   decoration-danger="total_invoice_balance &gt; 0" />
-              </button>
-              
+              </button>              
             </div>
             <div class="oe_title">
               <h1>

@@ -27,6 +27,7 @@
       <field name="model">bulk.sms</field>
       <field name="arch" type="xml">
         <tree default_order='name desc' delete="false" edit="false">
+          <field name="bulk_sms_setting_id" readonly="1" />
           <field name="name" readonly="1" />
           <field name="phone_number" attrs="{'readonly': [('processed', '=', True)]}" />
           <field name="text_message" attrs="{'readonly': [('processed', '=', True)]}" />
@@ -44,21 +45,27 @@
         </tree>
       </field>
     </record>
+
     <record id="bulk_sms_view_form" model="ir.ui.view">
       <field name="name">Bulk SMS</field>
       <field name="model">bulk.sms</field>
       <field name="arch" type="xml">
-        <form string="Collections">
+        <form string="Bulk SMS">
+          <header>
+            <button class="oe_highlight" type="object" name="bulk_sms_cron_tolcin" string="Send"
+                icon="fa-paper-plane" groups="bulk_sms.bulk_sms_admin,base.group_system" />
+          </header>
           <sheet>
             <field name="active" invisible="1"/>
-            <!-- <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}" />
+            <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}" />
             <widget name="web_ribbon" title="Sent" bg_color="bg-success" attrs="{'invisible': [('processed', '!=', True)]}" />
-            <widget name="web_ribbon" title="Pending" bg_color="bg-warning" attrs="{'invisible': [('processed', '=', 'True')]}" /> -->
+            <widget name="web_ribbon" title="Pending" bg_color="bg-warning" attrs="{'invisible': [('processed', '=', 'True')]}" />
             
             <div class="oe_title">
               <h1>
                 <field name="name" readonly="1" />
               </h1>
+              <field name="bulk_sms_setting_id" required="True"  domain="[('company_id', '=', company_id)]"/>
             </div>
             <group>
               <group>

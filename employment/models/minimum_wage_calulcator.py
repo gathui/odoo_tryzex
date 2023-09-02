@@ -75,8 +75,8 @@ class MinimumWage(models.TransientModel):
         ('cat_2', 'Municipalities, Town Councils of Mavoko, Riuru, Limuru'),
         ('cat_3', 'All other areas (neither cities nor municipalities nor town councils)'),
     ], string='Region', help="Region")
-    leave_allowance = fields.Float(string="Annual Leave Allowance(Days)", default=21)
-    housing_allowance = fields.Float(string="Housing Allowance(%)", default=15)
+    leave_allowance = fields.Float(string='Annual Leave Allowance(Days)', default=21)
+    housing_allowance = fields.Float(string='Housing Allowance(%)', default=15)
     job_type = fields.Selection(selection=lambda self: self.env['minimum.wage'].get_jobtype_selection(),string="Occupation/Job Type/Grade")
     employment_history_ids = fields.One2many('employment.history', 'min_wage_calc_id', string="Employment History")
     monthly_salary_ids = fields.One2many('monthly.salary', 'min_wage_calc_id', string="Monthly Salary")

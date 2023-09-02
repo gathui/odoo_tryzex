@@ -1,0 +1,21 @@
+<odoo>
+  <data>
+    <record id="bulk_sms_company_info_form_inherit" model="ir.ui.view">
+      <field name="name">bulk_sms_company_info_form_inherit</field>
+      <field name="model">res.company</field>
+      <field name="inherit_id" ref="base.view_company_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+          <page string="Configs">
+            <group>
+              <field name="bulk_sms_setting_id" 
+              domain="[('company_id', '=', id)]"
+              options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}"/>
+            </group>
+
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

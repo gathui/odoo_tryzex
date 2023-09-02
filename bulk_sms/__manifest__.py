@@ -30,6 +30,7 @@
         'security/ir.model.access.csv',        
         'views/bulk_sms_settings.xml',
         'views/views.xml',
+        'views/res_company.xml',
         'views/templates.xml',
         'views/menus.xml'
     ],
