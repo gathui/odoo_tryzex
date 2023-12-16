@@ -59,13 +59,14 @@
             <field name="active" invisible="1"/>
             <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}" />
             <widget name="web_ribbon" title="Sent" bg_color="bg-success" attrs="{'invisible': [('processed', '!=', True)]}" />
-            <widget name="web_ribbon" title="Pending" bg_color="bg-warning" attrs="{'invisible': [('processed', '=', 'True')]}" />
+            <widget name="web_ribbon" title="Pending" bg_color="bg-warning" attrs="{'invisible': [('processed', '=', True)]}" />
             
             <div class="oe_title">
-              <h1>
-                <field name="name" readonly="1" />
-              </h1>
-              <field name="bulk_sms_setting_id" required="True"  domain="[('company_id', '=', company_id)]"/>
+              <span>
+                <h2><field name="name" readonly="1" /></h2>
+                <field name="bulk_sms_setting_id" required="True" readonly="1"  domain="[('company_id', '=', company_id)]"/>
+              </span>
+              <separator/>              
             </div>
             <group>
               <group>

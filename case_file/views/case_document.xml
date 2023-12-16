@@ -6,7 +6,7 @@
         <field name="name">case_document_type_list</field>
         <field name="model">case.document.type</field>
         <field name="arch" type="xml">
-          <tree>
+          <tree default_order="category_id,subcategory_id,sequence">
             <field name="category_id" />
             <field name="subcategory_id" />
             <field name="name" />
@@ -30,9 +30,11 @@
                 <field name="name" />
                 <field name="category_id" domain="[('company_id', '=', company_id)]"
                   options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+                <field name="apply_to_all" />
                 <field name="subcategory_id"
                   domain="[('company_id', '=', company_id),('category_id', '=', category_id)]"
-                  options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" />
+                  options="{'no_open': False,'no_quick_create': True, 'no_create_edit':True}" 
+                  attrs="{'invisible':[('apply_to_all','=',True)],'required':[('apply_to_all','=',False)]}"/>
                 <field name="active" />
                 <field name="required" />
                 <field name="sequence" />
@@ -53,11 +55,13 @@
         <field name="name">case_document_list</field>
         <field name="model">case.document</field>
         <field name="arch" type="xml">
-          <tree>
+          <tree default_order="case_file_id,category_id,subcategory_id" create="false">
             <field name="ref" />
             <field name="case_file_id" widget="many2one" />
+            <field name="claimant_id" widget="many2one" />
             <field name="name" />
             <field name="document_type_id" />
+            <field name="category_id" />
             <field name="subcategory_id" />
             <field name="attachment_id" widget="many2one" />
             <field name="active" />

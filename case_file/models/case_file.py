@@ -115,7 +115,7 @@ class CaseFile(models.Model):
         ('probono', 'Pro Bono')
     ], string='Billing Type',  help="Billing Method", group_expand='_expand_states',tracking=True)
 
-    missing_doc_types = fields.Integer(string="Missing Docs", compute="_compute_missing_documents")
+    missing_doc_types = fields.Char(string="Missing Docs", compute="_compute_missing_documents")
 
     def _expand_states(self, states, domain, order):
         return [key for key, val in type(self).state.selection]
@@ -132,6 +132,12 @@ class CaseFile(models.Model):
                                                                     ('date_deadline','<',date.today())])
             rec.tasks_today = self.env['mail.activity'].search_count([('res_model','=','case.file'),('res_id','=',rec.id),
                                                                     ('date_deadline','=',date.today())])
+
+    @api.onchange('category_id')
+    def _onchange_category_id(self):
+        for rec in self:
+            rec.subcategory_id = None
+
 
     @api.model
     def create(self,vals):
@@ -153,32 +159,34 @@ class CaseFile(models.Model):
         
     def _compute_missing_documents(self):
         for rec in self:
-            required_docs = self.env['case.document.type'].search([('subcategory_id','=',rec.subcategory_id.id),
-                                                                   ('required','=',True), ('active','=',True)])
+            required_docs = self.env['case.document.type'].search([('required','=',True), ('active','=',True), 
+                                                                   ('category_id','=',rec.category_id.id),'|',
+                                                                   ('subcategory_id','=',rec.subcategory_id.id),
+                                                                   ('apply_to_all','=',True)
+                                                                   ])
             
             print("required_docs",required_docs, required_docs.ids)
             file_docs = rec.case_document_ids.filtered(lambda line: line.document_type_id.required == True)
             print("file_docs",file_docs, file_docs.ids)
-            a = set(required_docs.ids)
-            b = set(file_docs.ids)
-            print("SETS",a, b)
-            missing_doc_type_ids = a.difference(b)
+            set_required_docs = set(required_docs.ids)
+            set_current_docs = set(file_docs.ids)
+            print("SETS",set_required_docs, set_current_docs)
+            missing_doc_type_ids = set_required_docs.difference(set_current_docs)
             print("missing_doc_type_ids",missing_doc_type_ids)
             if len(missing_doc_type_ids) > 0:
-                missing_recs = self.env['case.document.type'].search([('subcategory_id','=',rec.subcategory_id.id),
-                                                                   ('required','=',True), ('active','=',True), 
-                                                                   ('id','in',list(missing_doc_type_ids))])
+                missing_recs = self.env['case.document.type'].search([('required','=',True), ('active','=',True), 
+                                                                   ('id','in',list(missing_doc_type_ids))],order="sequence")
                 print('MISSINGRECS', missing_recs)
-                msg = (_("The following Document Types are required for this '%s' Case Subcategory:") % (rec.subcategory_id.name))
+                msg = (_("The following Document Types are required for the '%s' Case Subcategory:") % (rec.subcategory_id.name))
                 counter = 1
                 for missing_rec in missing_recs:
                     msg = (_("%s\n\t%s: %s")%(msg,counter, missing_rec.name))
                     counter = counter + 1
 
-                rec.missing_doc_types = len(missing_doc_type_ids)
+                rec.missing_doc_types = _(("%s/%s")%(len(missing_recs),len(set_required_docs)))
                 return msg
             else:
-                rec.missing_doc_types = 0
+                rec.missing_doc_types = ""
                 return False
             
 
@@ -277,6 +285,8 @@ class CaseFile(models.Model):
     def action_reopen_case(self):
         for rec in self:
             rec.update({"state":'Open'})
+
+
 class MailActivityInherit(models.AbstractModel):
     _inherit = "mail.activity"
     

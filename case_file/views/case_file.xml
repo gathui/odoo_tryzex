@@ -157,6 +157,7 @@
           <filter name="end_date" date="end_date" />
           <group expand="0" string="Group By">
             <filter name="grp_category_id" string="Category" domain="[]" context="{'group_by': 'category_id'}" />
+            <filter name="grp_claimant_id" string="Claimant" domain="[]" context="{'group_by': 'claimant_id'}" />
             <filter name="grp_subcategory_id" string="Sub Category" domain="[]" context="{'group_by': 'subcategory_id'}" />
             <filter name="grp_start_date" string="Start Date" domain="[]" context="{'group_by': 'start_date'}" />
             <!-- <separator orientation="vertical" />
@@ -208,10 +209,10 @@
           <sheet>
             <div class="oe_button_box" name="button_box">
               <button class="oe_stat_button" type="object" name="compute_missing_documents"
-                icon="fa-file-text" attrs="{'invisible': [('missing_doc_types', '=', 0)]}">
+                icon="fa-file-text" >
                 <field string="Missing Documents" name="missing_doc_types" widget="statinfo"
                   style="color:red"
-                  decoration-danger="missing_doc_types &gt; 0" />
+                  decoration-danger="missing_doc_types !=''" />
               </button>
               <button class="oe_stat_button" type="object" name="action_do_nothing"
                 icon="fa-bell-slash-o" attrs="{'invisible': [('overdue_tasks', '=', 0)]}">
@@ -313,7 +314,7 @@
               </page>
               <page id="pg_case_documents" string="Case Documents">
                 <field name="case_document_ids" domain="[('case_file_id', '=', id)]">
-                  <tree>
+                  <tree default_order="name">
                     <field name="ref" />
                     <field name="document_type" />
                     <field name="name" />
@@ -372,8 +373,9 @@
 
     <record model="ir.actions.act_window" id="case_file_action_window">
       <field name="name">Case Files</field>
+      <field name="context">{'search_default_grp_category_id': 1, 'search_default_grp_claimant_id':2}</field>
+      <!-- <field name="context">{'search_default_grp_category_id': 1, 'search_default_grp_subcategory_id':1,'search_default_grp_start_date':1,'search_default_in_progress': 1}</field> -->
       <field name="res_model">case.file</field>
-      <field name="context">{'search_default_grp_category_id': 1, 'search_default_grp_subcategory_id':1,'search_default_grp_start_date':1,'search_default_in_progress': 1}</field>
       <field name="view_mode">tree,kanban,form</field>
     </record>
 

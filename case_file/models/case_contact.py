@@ -30,6 +30,7 @@ class CaseFileContact(models.Model):
         ('magistrate', 'Magistrate'),
         ('judge', 'Judge'),
         ('witness', 'Witness'),
+        ('doctor', 'Doctor'),
         ('victim', 'Victim'),
         ('other', 'Other'),
 
