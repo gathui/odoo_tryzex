@@ -157,7 +157,7 @@
           <filter name="end_date" date="end_date" />
           <group expand="0" string="Group By">
             <filter name="grp_category_id" string="Category" domain="[]" context="{'group_by': 'category_id'}" />
-            <filter name="grp_claimant_id" string="Claimant" domain="[]" context="{'group_by': 'claimant_id'}" />
+            <filter name="grp_claimant_id" string="Claimant" domain="[('state','in',['in_progress'])]" context="{'group_by': 'claimant_id'}" />
             <filter name="grp_subcategory_id" string="Sub Category" domain="[]" context="{'group_by': 'subcategory_id'}" />
             <filter name="grp_start_date" string="Start Date" domain="[]" context="{'group_by': 'start_date'}" />
             <!-- <separator orientation="vertical" />
