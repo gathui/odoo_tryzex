@@ -316,7 +316,7 @@ class MailActivityInherit(models.AbstractModel):
                 }
             cal = self.env['calendar.event'].create(cal_vals)
             vals['calendar_event_id']=cal.id
-            vals['deadline'] = start_time
+            vals['date_deadline'] = start_time
         except Exception as e:
             print('Could not create calendar event', e)
 
